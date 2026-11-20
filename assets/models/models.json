@@ -1,0 +1,232 @@
+[
+  {
+    "id": "trex",
+    "glb": "trex.glb",
+    "usdz": "trex.usdz",
+    "poster": "trex-poster.jpg",
+    "lengthM": 12.3,
+    "clips": [
+      "Bite",
+      "Idle"
+    ],
+    "clipInfo": [
+      {
+        "name": "Bite",
+        "frames": [
+          0.0,
+          263.2
+        ],
+        "seconds": 10.97,
+        "source": "original"
+      },
+      {
+        "name": "Idle",
+        "frames": [
+          0.0,
+          72.0
+        ],
+        "seconds": 3.0,
+        "source": "custom"
+      }
+    ],
+    "defaultClip": "Idle",
+    "usdzClip": "Idle",
+    "tris": 11938,
+    "sizesKB": {
+      "glb": 3434,
+      "usdz": 3098,
+      "poster": 24
+    },
+    "credit": {
+      "title": "Animated T-Rex Dinosaur Biting Attack Loop",
+      "author": "LasquetiSpice",
+      "authorUrl": "https://sketchfab.com/LasquetiSpice",
+      "url": "https://sketchfab.com/3d-models/animated-t-rex-dinosaur-biting-attack-loop-5bbcadb7d9274843abb5ada35767dba1",
+      "license": "CC BY 4.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by/4.0/",
+      "text": "This work is based on \"Animated T-Rex Dinosaur Biting Attack Loop\" (https://sketchfab.com/3d-models/animated-t-rex-dinosaur-biting-attack-loop-5bbcadb7d9274843abb5ada35767dba1) by LasquetiSpice (https://sketchfab.com/LasquetiSpice) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/) Scaled, re-textured and converted for AR."
+    }
+  },
+  {
+    "id": "pterosaur",
+    "glb": "pterosaur.glb",
+    "usdz": "pterosaur.usdz",
+    "poster": "pterosaur-poster.jpg",
+    "wingspanM": 6.0,
+    "clips": [
+      "Fly",
+      "Idle"
+    ],
+    "clipInfo": [
+      {
+        "name": "Fly",
+        "frames": [
+          0.0,
+          256.6
+        ],
+        "seconds": 10.69,
+        "source": "original"
+      },
+      {
+        "name": "Idle",
+        "frames": [
+          0.0,
+          256.6
+        ],
+        "seconds": 10.69,
+        "source": "custom"
+      }
+    ],
+    "defaultClip": "Fly",
+    "usdzClip": "Idle",
+    "tris": 13494,
+    "sizesKB": {
+      "glb": 3169,
+      "usdz": 3193,
+      "poster": 14
+    },
+    "credit": {
+      "title": "Animated Flying Pteradactal Dinosaur Loop",
+      "author": "LasquetiSpice",
+      "authorUrl": "https://sketchfab.com/LasquetiSpice",
+      "url": "https://sketchfab.com/3d-models/animated-flying-pteradactal-dinosaur-loop-09f6b1ff7bfd4a2d8d9c0b9827f2a708",
+      "license": "CC BY 4.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by/4.0/",
+      "text": "This work is based on \"Animated Flying Pteradactal Dinosaur Loop\" (https://sketchfab.com/3d-models/animated-flying-pteradactal-dinosaur-loop-09f6b1ff7bfd4a2d8d9c0b9827f2a708) by LasquetiSpice (https://sketchfab.com/LasquetiSpice) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/) Scaled, re-textured and converted for AR."
+    }
+  },
+  {
+    "id": "ankylosaurus",
+    "glb": "ankylosaurus.glb",
+    "usdz": "ankylosaurus.usdz",
+    "poster": "ankylosaurus-poster.jpg",
+    "lengthM": 6.5,
+    "clips": [
+      "Idle"
+    ],
+    "clipInfo": [
+      {
+        "name": "Idle",
+        "frames": [
+          1.0,
+          186.0
+        ],
+        "seconds": 7.71,
+        "source": "original"
+      }
+    ],
+    "defaultClip": "Idle",
+    "usdzClip": "Idle",
+    "tris": 20214,
+    "sizesKB": {
+      "glb": 3782,
+      "usdz": 4110,
+      "poster": 32
+    },
+    "credit": {
+      "title": "Ankylosaurus Updated",
+      "author": "kenchoo",
+      "authorUrl": "https://sketchfab.com/kenchoo",
+      "url": "https://sketchfab.com/3d-models/ankylosaurus-updated-9ba4629a871c4b0fa792fc1bb629881b",
+      "license": "CC BY 4.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by/4.0/",
+      "text": "This work is based on \"Ankylosaurus Updated\" (https://sketchfab.com/3d-models/ankylosaurus-updated-9ba4629a871c4b0fa792fc1bb629881b) by kenchoo (https://sketchfab.com/kenchoo) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/) Scaled, re-textured and converted for AR."
+    }
+  },
+  {
+    "id": "diplodocus",
+    "glb": "diplodocus.glb",
+    "usdz": "diplodocus.usdz",
+    "poster": "diplodocus-poster.jpg",
+    "lengthM": 24.0,
+    "clips": [
+      "Eat high",
+      "Idle",
+      "Walk"
+    ],
+    "clipInfo": [
+      {
+        "name": "Eat high",
+        "frames": [
+          0.0,
+          288.0
+        ],
+        "seconds": 12.0,
+        "source": "original"
+      },
+      {
+        "name": "Idle",
+        "frames": [
+          0.0,
+          72.0
+        ],
+        "seconds": 3.0,
+        "source": "custom"
+      },
+      {
+        "name": "Walk",
+        "frames": [
+          0.0,
+          96.0
+        ],
+        "seconds": 4.0,
+        "source": "original"
+      }
+    ],
+    "defaultClip": "Idle",
+    "usdzClip": "Idle",
+    "tris": 27337,
+    "sizesKB": {
+      "glb": 4471,
+      "usdz": 4164,
+      "poster": 19
+    },
+    "credit": {
+      "title": "Dinosaur",
+      "author": "mortalityrexotable",
+      "authorUrl": "https://sketchfab.com/mortalityrexotable",
+      "url": "https://sketchfab.com/3d-models/dinosaur-0a43eeb601264d728fb5848ee62482b5",
+      "license": "CC BY 4.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by/4.0/",
+      "text": "This work is based on \"Dinosaur\" (https://sketchfab.com/3d-models/dinosaur-0a43eeb601264d728fb5848ee62482b5) by mortalityrexotable (https://sketchfab.com/mortalityrexotable) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/) Scaled, re-textured and converted for AR."
+    }
+  },
+  {
+    "id": "carnotaurus",
+    "glb": "carnotaurus.glb",
+    "usdz": "carnotaurus.usdz",
+    "poster": "carnotaurus-poster.jpg",
+    "lengthM": 7.5,
+    "clips": [
+      "Idle"
+    ],
+    "clipInfo": [
+      {
+        "name": "Idle",
+        "frames": [
+          0.0,
+          136.0
+        ],
+        "seconds": 5.67,
+        "source": "original"
+      }
+    ],
+    "defaultClip": "Idle",
+    "usdzClip": "Idle",
+    "tris": 10470,
+    "sizesKB": {
+      "glb": 3457,
+      "usdz": 3645,
+      "poster": 28
+    },
+    "credit": {
+      "title": "primal carnage carnotaurus",
+      "author": "seth the yutyrannus",
+      "authorUrl": "https://sketchfab.com/slang107123456789",
+      "url": "https://sketchfab.com/3d-models/primal-carnage-carnotaurus-e7013ee8fb3a4ce4b58da29a8c1f6d6e",
+      "license": "CC BY 4.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by/4.0/",
+      "text": "This work is based on \"primal carnage carnotaurus\" (https://sketchfab.com/3d-models/primal-carnage-carnotaurus-e7013ee8fb3a4ce4b58da29a8c1f6d6e) by seth the yutyrannus (https://sketchfab.com/slang107123456789) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/) Scaled, re-textured and converted for AR."
+    }
+  }
+]
