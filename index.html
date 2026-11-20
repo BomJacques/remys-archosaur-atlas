@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Family Album">
+<meta name="theme-color" content="#fff9ef">
+<title>Archosaur Family Album</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/lab.css">
+</head>
+<body>
+<a class="skip" href="#view">Skip to content</a>
+<header class="topbar" id="topbar">
+  <a class="brand" href="#/home" aria-label="Home">
+    <span class="brand-logo" id="brandLogo" aria-hidden="true">🦖</span>
+    <span class="brand-name" id="brandName">Family Album</span>
+  </a>
+  <nav class="nav" id="nav" aria-label="Main"></nav>
+  <button class="btn btn-ghost words-btn" id="wordsBtn" aria-haspopup="dialog" aria-controls="glossary">📖 <span>Words</span></button>
+</header>
+<main id="view" class="view" tabindex="-1"></main>
+<div class="live" id="live" aria-live="polite" role="status"></div>
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="glossary" role="dialog" aria-label="Science words" aria-modal="true" hidden>
+  <div class="drawer-head">
+    <h2>📖 Science words</h2>
+    <button class="btn btn-ghost" id="wordsClose" aria-label="Close words">✕</button>
+  </div>
+  <input class="drawer-search" id="wordsSearch" type="search" placeholder="Search a word…" aria-label="Search words" autocomplete="off">
+  <dl class="drawer-list" id="wordsList"></dl>
+</aside>
+<script src="js/data.js"></script>
+<script src="js/art-core.js"></script>
+<script src="js/art-a.js"></script>
+<script src="js/art-b.js"></script>
+<script src="js/views/home.js"></script>
+<script src="js/views/lineage.js"></script>
+<script src="js/views/reptiles.js"></script>
+<script src="js/views/timeline.js"></script>
+<script src="js/views/lab.js"></script>
+<script src="js/views/giants.js"></script>
+<script src="js/views/quiz.js"></script>
+<!-- AR (js/ar.js) is added once the 3D models are ready -->
+
+<script src="js/app.js"></script>
+</body>
+</html>
