@@ -16,6 +16,13 @@
     if (html != null) e.innerHTML = html;
     return e;
   }
+  /* two columns on wide screens: the thing you control + what you see on the left, the evidence on the right */
+  window.simSplit = function (root, left, right, sticky) {
+    var g = mk('div', 'sim-split'), a = mk('div', 'sim-col sim-a'), b = mk('div', 'sim-col sim-b');
+    left.forEach(function (x) { if (x === sticky) x.classList.add('sim-sticky'); a.appendChild(x); });
+    right.forEach(function (x) { b.appendChild(x); });
+    g.appendChild(a); g.appendChild(b); root.appendChild(g);
+  };
   function btn(label, cls, fn) {
     var b = mk('button', 'lab-btn ' + (cls || ''), label);
     b.type = 'button';
@@ -145,7 +152,7 @@
 
     var root = mk('div', 'lab-sim');
     root.innerHTML = '<h3 class="lab-sim-title">🐦 Seed Beaks</h3>' +
-      '<p class="lab-intro">A flock of 40 small birds eats seeds. Soft seeds are easy. Hard seeds need a thick, strong beak. Pick the weather, then press <b>Next generation</b>.</p>';
+      '<p class="lab-intro">Birds eat seeds. <b>Hard seeds</b> need a <b>thick beak</b>. Pick a weather, then press <b>Next generation</b>.</p>';
     var seedsEl = mk('div', 'lab-seeds');
     var flock = mk('div', 'lab-flock');
     flock.setAttribute('role', 'img');
@@ -192,7 +199,7 @@
         if (k < 1) raf = requestAnimationFrame(tick);
       })(st);
     }
-    [seedsEl, portraits, flock, stats, charts, controls, why].forEach(function (x) { root.appendChild(x); });
+    window.simSplit(root, [controls, seedsEl, portraits], [stats, flock, why, charts]);
     host.appendChild(root);
 
     function clearT() { timers.forEach(clearTimeout); timers = []; }
@@ -288,18 +295,18 @@
     function explain() {
       var s = '<h4>What just happened?</h4>';
       if (!last) {
-        s += '<p>Right now it is generation 0. The flock has a mix of beaks, mostly in the middle. Nobody has been picked yet. Choose a weather and press <b>Next generation</b>.</p>' +
-          '<p class="lab-tip">Big idea: <b>variation</b> (birds differ) + <b>inheritance</b> (chicks copy parents) + <b>selection</b> (some survive more often).</p>';
+        s += '<p>Start: birds have all kinds of beaks. Tap <b>Next generation</b>.</p>' +
+          '<p class="lab-tip">3 steps: 1. Birds are <b>different</b>. 2. The best fitting ones <b>survive</b>. 3. Chicks <b>copy</b> their parents.</p>';
       } else {
         var Y = YEARS[last.key], dir = last.after > last.before + 0.004 ? 'thicker' : last.after < last.before - 0.004 ? 'thinner' : 'about the same';
-        var cause = last.key === 'dry' ? 'Soft seeds ran out. Only hard seeds were left, and <b>thick beaks</b> can crack them. Thin-beaked birds went hungry.' :
-          last.key === 'wet' ? 'Soft seeds were everywhere. Any beak could eat, and slimmer beaks were slightly better at picking up small seeds. So the pressure was gentle.' :
-            'There were both kinds of seeds, so almost every beak worked. Not much pressure either way.';
+        var cause = last.key === 'dry' ? 'Only hard seeds left. <b>Thick beaks</b> crack them. Thin beaks go hungry.' :
+          last.key === 'wet' ? 'Soft seeds everywhere. Any beak can eat. Not much changes.' :
+            'Both kinds of seeds. Most beaks work.';
         s += '<p>' + Y.emoji + ' <b>' + esc(Y.name) + '.</b> ' + cause + '</p>' +
-          '<p><b>' + last.nSurv + ' of ' + N + '</b> birds got enough food to have chicks. The survivors\' beaks averaged <b>' + f1(mm(last.survMean)) + ' mm</b> (the whole flock was ' + f1(mm(last.before)) + ' mm). Their chicks inherited beaks like theirs, plus tiny random differences. The new flock averages <b>' + f1(mm(last.after)) + ' mm</b>: ' + dir + '.</p>' +
-          '<p>No bird grew a new beak. The <b>flock</b> changed because the next generation came mostly from the birds that fitted the weather.</p>';
+          '<p><b>' + last.nSurv + ' of ' + N + '</b> birds survived and had chicks. Chicks get beaks like their parents. New average beak: <b>' + f1(mm(last.after)) + ' mm</b> (' + dir + ').</p>' +
+          '<p>No bird changed. The <b>flock</b> changed.</p>';
         if (gen >= 5) {
-          s += '<p class="lab-tip">After ' + gen + ' generations the average moved from ' + f1(mm(means[0])) + ' mm to ' + f1(mm(means[means.length - 1])) + ' mm. Now flip the weather. The flock will drift the other way. There is no goal, just "what works this year".</p>';
+          s += '<p class="lab-tip">' + f1(mm(means[0])) + ' mm to ' + f1(mm(means[means.length - 1])) + ' mm. Now switch the weather and watch it turn around!</p>';
         }
       }
       why.innerHTML = s;
@@ -347,7 +354,7 @@
 
     var root = mk('div', 'lab-sim');
     root.innerHTML = '<h3 class="lab-sim-title">🐞 Camouflage Critters</h3>' +
-      '<p class="lab-intro">You are a hungry bird! <b>Tap the critters you can find</b> to eat ' + MEALS + ' of them. The ones you miss have babies. Watch what happens to their colours.</p>';
+      '<p class="lab-intro">You are a hungry bird! <b>Tap ' + MEALS + ' critters</b> to eat them. The ones you miss have babies.</p>';
     var bgRow = mk('div', 'lab-chips'); bgRow.setAttribute('role', 'radiogroup'); bgRow.setAttribute('aria-label', 'Background');
     var bgBtns = {};
     Object.keys(BGS).forEach(function (k) {
@@ -363,7 +370,7 @@
     var bReset = btn('↺ Start over', 'lab-ghost', function () { clearT(); busy = false; init(); render(); explain(); });
     actions.appendChild(bAuto); actions.appendChild(bReset);
     var why = mk('div', 'lab-explain'); why.setAttribute('aria-live', 'polite');
-    [bgRow, meter, stage, stats, histEl, actions, why].forEach(function (x) { root.appendChild(x); });
+    window.simSplit(root, [bgRow, meter, stage, actions], [stats, why, histEl]);
     host.appendChild(root);
 
     function clearT() { timers.forEach(clearTimeout); timers = []; }
@@ -438,14 +445,13 @@
     function explain() {
       var s = '<h4>What just happened?</h4>';
       if (!last) {
-        s += '<p>Generation 0: critters come in every colour, all mixed up. Some stand out, some blend in. As the bird, you will naturally spot the bright ones first.</p>' +
-          '<p class="lab-tip">Try it: eat ' + MEALS + ' critters, then look at the colour columns below. Try switching the background halfway through!</p>';
+        s += '<p>Critters come in every colour. Some stand out, some hide.</p>' +
+          '<p class="lab-tip">Eat ' + MEALS + ' critters. Then switch the background!</p>';
       } else {
         var better = last.survMis < last.eatenMis;
-        s += '<p>You (the bird) ate ' + MEALS + ' critters. The ones you ate stood out more: average colour mismatch <b>' + Math.round(last.eatenMis * 100) + '%</b>. The ones that escaped matched better: <b>' + Math.round(last.survMis * 100) + '%</b>' + (better ? '.' : '. (This time luck was against the matching ones, which happens!)') + '</p>' +
-          '<p>The survivors had babies. Babies are about the same colour as their parents, with tiny random changes. The whole population\'s mismatch went from <b>' + Math.round(last.before * 100) + '%</b> to <b>' + Math.round(last.after * 100) + '%</b>.</p>' +
-          '<p>No critter changed colour to hide. Predators removed the easy-to-see ones, so the population became better hidden over generations.</p>';
-        if (gen >= 8) s += '<p class="lab-tip">After ' + gen + ' generations, the colour columns bunch around the background. Now switch the background. The colours will slowly swing to match the new one. There is no "right" colour, only what works <i>here</i>.</p>';
+        s += '<p>You ate the ones that <b>stood out</b>. The hidden ones survived and had babies. Babies look like their parents.</p>' +
+          '<p>No critter changed colour. Hiders just had <b>more babies</b>.</p>';
+        if (gen >= 8) s += '<p class="lab-tip">Now switch the background and watch the colours follow!</p>';
       }
       why.innerHTML = s;
     }
@@ -521,7 +527,7 @@
 
     var root = mk('div', 'lab-sim');
     root.innerHTML = '<h3 class="lab-sim-title">🌳 Family Tree Maker</h3>' +
-      '<p class="lab-intro">Meet the <b>Wibblets</b>, made-up critters. They start as one big group. Split the group (a river, a mountain, an ocean...) and let time pass. Watch cousins appear and the family tree grow.</p>';
+      '<p class="lab-intro">Meet the <b>Wibblets</b>. Split them into two groups, let time pass, and watch new cousins appear.</p>';
     var treeEl = mk('div', 'lab-tree');
     var groups = mk('div', 'lab-groups');
     var compare = mk('div', 'lab-compare');
@@ -544,7 +550,7 @@
     opts.appendChild(rateSel); opts.appendChild(homeL);
     controls.appendChild(actions); controls.appendChild(opts);
     var why = mk('div', 'lab-explain'); why.setAttribute('aria-live', 'polite');
-    [treeEl, groups, compare, controls, why].forEach(function (x) { root.appendChild(x); });
+    window.simSplit(root, [controls, treeEl], [why, compare, groups]);
     host.appendChild(root);
 
     function hueCol(n) { return 'hsl(' + Math.round(10 + gmean(n).hue * 300) + ',60%,48%)'; }
@@ -616,14 +622,14 @@
     function explain() {
       var L = allLeaves(), sp = species(), s = '<h4>What just happened?</h4>';
       if (L.length === 1 && gen === 0) {
-        s += '<p>One group of Wibblets, all cousins mixing together. When everyone can mate with everyone, the group stays about the same kind.</p><p class="lab-tip">Press <b>Split this group</b>, then run some generations.</p>';
+        s += '<p>One group. Everyone mixes, so they all stay alike.</p><p class="lab-tip">Press <b>Split this group</b>, then run some generations.</p>';
       } else if (L.length === 1) {
-        s += '<p>' + gen + ' generations passed. With only one group, mixing keeps everyone similar, so nothing much splits apart. Try splitting the group.</p>';
+        s += '<p>' + gen + ' generations passed. One group keeps mixing, so nothing splits. Try splitting it!</p>';
       } else {
-        if (last && last.type === 'split') s += '<p>✂ Group <b>' + last.from + '</b> was split in two by something like a river or a mountain: <b>' + last.a + '</b> and <b>' + last.b + '</b>. They cannot mix any more. Both come from the same ancestors, so they are <b>cousins</b>.</p>';
-        s += '<p>Every generation, copying mistakes in DNA (<b>mutations</b>) add small random differences. Because the groups are apart, each collects <i>its own</i> changes' + (homes ? ', and the different homes push them in different directions too (fluffier survives better in the cold)' : '') + '. Change piles up, generation after generation.</p>' +
+        if (last && last.type === 'split') s += '<p>✂ Group <b>' + last.from + '</b> was split by a river or mountain into <b>' + last.a + '</b> and <b>' + last.b + '</b>. Same ancestors, so they are <b>cousins</b>.</p>';
+        s += '<p>Small random changes (<b>mutations</b>) pile up in each group. Apart, they drift' + (homes ? ', and homes push them too (fluffy is best in the cold)' : '') + '.</p>' +
           '<p>Right now: <b>' + L.length + ' groups</b>, about <b>' + sp + ' kind' + (sp === 1 ? '' : 's') + '</b> of Wibblet' + (sp > 1 ? '. Groups that drifted apart enough count as separate species' : '. They have not drifted far enough to count as different species yet') + '.</p>';
-        s += '<p class="lab-tip">Nobody planned this tree. It has no goal, only splits and slow drifting. Real families (like crocodiles and birds) grew the same way. They are cousins that share a common ancestor, and neither is the other\'s ancestor.</p>';
+        s += '<p class="lab-tip">Nobody planned this tree. Crocodiles and birds grew apart the same way.</p>';
       }
       why.innerHTML = s;
     }

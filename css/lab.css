@@ -215,3 +215,22 @@
 .giants-herd img.giants-dead { opacity: .2; filter: grayscale(1); transform: scale(.85) rotate(-6deg); }
 .giants-gnote { position: absolute; left: 10px; top: 6px; font-size: 14px; color: #456; }
 .giants-pic { image-rendering: auto; }
+
+/* sims: keep the controls and the result on one screen */
+.sim-split { display: block; }
+.sim-col { min-width: 0; }
+.sim-sticky { position: sticky; bottom: calc(var(--bot-h, 0px) + 6px); z-index: 5; background: rgba(255,255,255,.96); border-radius: 14px; padding: 4px 8px; box-shadow: 0 -2px 12px rgba(20,40,70,.18); margin-top: 8px; }
+.sim-sticky .lab-chips, .sim-sticky .giants-chips, .sim-sticky .lab-actions, .sim-sticky .giants-actions { margin: 4px 0; }
+@media (min-width: 900px) {
+  .lab-view, .giants-view { max-width: 1280px; }
+  .sim-split { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+  .sim-a { position: sticky; top: 8px; }
+  .sim-sticky { position: static; box-shadow: none; background: none; padding: 0; margin-top: 4px; }
+  .lab-flock { grid-template-columns: repeat(10, 1fr); }
+  .lab-charts { grid-template-columns: 1fr; }
+  .lab-chart svg { max-height: 190px; }
+}
+@media (max-width: 899px) {
+  .lab-flock { grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); }
+  .lab-portrait svg { max-width: 180px; }
+}

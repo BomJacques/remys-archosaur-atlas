@@ -185,7 +185,7 @@
     var bR = btn('↺ Start over', 'giants-ghost', function () { timers.forEach(clearTimeout); busy = false; init(); renderAll(); });
     [bN, b10, b30, bR].forEach(function (b) { acts.appendChild(b); });
     var why = mk('div', 'giants-explain'); why.setAttribute('aria-live', 'polite');
-    [scene, stats, chart, chips, acts, why].forEach(function (x) { root.appendChild(x); });
+    window.simSplit(root, [scene, chips, acts], [stats, chart, why], acts);
     host.appendChild(root);
 
     function sync() { Object.keys(chipB).forEach(function (k) { var on = (+k === H); chipB[k].classList.toggle('is-on', on); chipB[k].setAttribute('aria-checked', on ? 'true' : 'false'); }); }
@@ -232,7 +232,7 @@
     }
     function explain() {
       var s = '<h4>What just happened?</h4>';
-      if (!last) s += '<p>Generation 0: the herd has a mix of neck lengths, mostly medium. Nobody is "trying" to grow a longer neck. Pick the food, then press <b>Next generation</b>.</p>';
+      if (!last) s += '<p>The herd has short and long necks. Pick where the leaves are, then press <b>Next generation</b>.</p>';
       else {
         var dir = last.after > last.before + 0.004 ? 'longer' : last.after < last.before - 0.004 ? 'shorter' : 'about the same';
         var cause = last.h > 0.5 ? 'There were lots of leaves up high that only long necks could reach. Short-necked animals ate less and had fewer babies.' : last.h > 0 ? 'Some leaves were up high. Long necks got extra food, but a long neck also costs energy.' : 'All the food was low down. A long neck gave no extra food and still cost energy, so <b>shorter</b> necks did slightly better.';
@@ -281,7 +281,7 @@
     [bN, b10, b30, bR].forEach(function (b) { acts.appendChild(b); });
     var why = mk('div', 'giants-explain'); why.setAttribute('aria-live', 'polite');
     var real = mk('div', 'giants-real', '<b>🦕 It really happened.</b> <i>Europasaurus</i> lived about 154 million years ago on an island in what is now Germany. It was a sauropod only about 6 metres long. Its mainland cousins were much bigger. Many scientists think island life shrank its ancestors over generations (still being studied). Dwarf elephants on islands are another example.');
-    [panels, stats, chart, acts, why, real].forEach(function (x) { root.appendChild(x); });
+    window.simSplit(root, [panels, acts], [stats, chart, why, real], acts);
     host.appendChild(root);
 
     function step(silent) {
@@ -311,7 +311,7 @@
       var maxG = Math.max(30, gen), gw = 280 / maxG, line = function (k, col) { return '<polyline fill="none" stroke="' + col + '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="' + hist.map(function (h, i) { return (10 + i * gw).toFixed(1) + ',' + (8 + (1 - h[k]) * 100).toFixed(1); }).join(' ') + '"/>'; };
       chart.innerHTML = '<div class="giants-chart-title">Average body size <span><b style="color:#2f6fb5">blue = mainland</b>, <b style="color:#d9742c">orange = island</b></span></div><svg viewBox="0 0 300 130" role="img" aria-label="Body size over generations on mainland and island"><rect x="10" y="8" width="280" height="100" rx="6" fill="#fff"/>' + line('main', '#2f6fb5') + line('isle', '#d9742c') + '<text x="10" y="124" font-size="10" fill="#555">generation 0</text><text x="290" y="124" font-size="10" text-anchor="end" fill="#555">' + maxG + '</text></svg>';
       var s = '<h4>What just happened?</h4>';
-      if (!last) s += '<p>Both groups start the same: a mix of body sizes, mostly medium-big. The only difference is <b>where they live</b>. Nobody is aiming to be big or small.</p>';
+      if (!last) s += '<p>Both groups start the same. Only <b>where they live</b> is different. Press <b>Next generation</b>.</p>';
       else {
         var dm = last.after.main - last.before.main, di = last.after.isle - last.before.isle;
         s += '<p>On the <b>mainland</b>, a small body was risky (predators), so bigger animals survived a bit more often. The average moved ' + (dm >= 0 ? 'bigger' : 'smaller') + '. On the <b>island</b> there were no predators, and a big body just meant needing more food. Smaller animals did better, so the average moved ' + (di >= 0 ? 'bigger (by chance this time)' : 'smaller') + '.</p>' +
