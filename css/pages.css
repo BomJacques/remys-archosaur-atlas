@@ -49,3 +49,6 @@ button.bas-toggle { cursor: pointer; touch-action: manipulation; }
 .wi-fig { margin: 0; background: #fff; border: 3px solid var(--line, #e7dcc6); border-radius: 16px; padding: 8px; text-align: center; }
 .wi-fig img { width: 100%; aspect-ratio: 4 / 3; object-fit: contain; display: block; background: linear-gradient(#eaf5ff, #fdf3dc); border-radius: 10px; }
 .wi-fig figcaption { font-weight: 800; margin-top: 6px; }
+.bas-dot { width: 14px; height: 14px; border-radius: 50%; flex: none; display: inline-block; }
+.bas-dot.on { background: #2e9b57; }
+.bas-dot.off { background: #8a8998; }

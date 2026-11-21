@@ -5,12 +5,10 @@
 
   /* ---------------- 1. a human family tree ---------------- */
   var PEOPLE = {
-    gm1: { e: '👵', n: 'Grandma', x: 90, y: 40, side: 'mum' }, gf1: { e: '👴', n: 'Grandpa', x: 190, y: 40, side: 'mum' },
-    gm2: { e: '👵', n: 'Granny', x: 410, y: 40, side: 'dad' }, gf2: { e: '👴', n: 'Pop', x: 510, y: 40, side: 'dad' },
-    mum: { e: '👩', n: 'Mum', x: 120, y: 150, side: 'mum' }, aunt: { e: '👩‍🦰', n: 'Aunt', x: 235, y: 150, side: 'mum' },
-    dad: { e: '👨', n: 'Dad', x: 440, y: 150, side: 'dad' },
-    you: { e: '🧒', n: 'You', x: 270, y: 265, side: 'you' }, sis: { e: '👧', n: 'Sister', x: 370, y: 265, side: 'you' },
-    cousin: { e: '🧒🏽', n: 'Cousin', x: 160, y: 265, side: 'mum' }
+    gm1: { img: 'grandma', n: 'Grandma', x: 90, y: 62 }, gf1: { img: 'grandpa', n: 'Grandpa', x: 190, y: 62 },
+    gm2: { img: 'granny', n: 'Granny', x: 410, y: 62 }, gf2: { img: 'pop', n: 'Pop', x: 510, y: 62 },
+    mum: { img: 'mum', n: 'Mum', x: 120, y: 206 }, aunt: { img: 'aunt', n: 'Aunt', x: 235, y: 206 }, dad: { img: 'dad', n: 'Dad', x: 440, y: 206 },
+    you: { img: 'you', n: 'You', x: 270, y: 350 }, sis: { img: 'sister', n: 'Sister', x: 370, y: 350 }, cousin: { img: 'cousin', n: 'Cousin', x: 160, y: 350 }
   };
   var LINKS = [['gm1', 'mum'], ['gf1', 'mum'], ['gm1', 'aunt'], ['gf1', 'aunt'], ['gm2', 'dad'], ['gf2', 'dad'], ['mum', 'you'], ['dad', 'you'], ['mum', 'sis'], ['dad', 'sis'], ['aunt', 'cousin']];
   var FOCUS = {
@@ -29,25 +27,35 @@
       '<div class="bas-chips" role="group" aria-label="Show relatives"></div><div class="bas-svg-wrap"></div><div class="bas-note" aria-live="polite"></div>';
     host.appendChild(root);
     var chips = root.querySelector('.bas-chips'), wrap = root.querySelector('.bas-svg-wrap'), note = root.querySelector('.bas-note');
-    var LABELS = { parents: '👪 Parents', grand: '👵 Grandparents', sib: '👧 Sibling', cousin: '🧒 Cousin', common: '🌳 Common ancestor' };
+    var LABELS = { parents: 'Parents', grand: 'Grandparents', sib: 'Sibling', cousin: 'Cousin', common: 'Common ancestor' };
     Object.keys(LABELS).forEach(function (k) {
       var b = document.createElement('button'); b.type = 'button'; b.className = 'bas-chip'; b.textContent = LABELS[k]; b.setAttribute('data-k', k); chips.appendChild(b);
     });
     function draw() {
       var F = FOCUS[sel], on = {}; F.ids.forEach(function (i) { on[i] = 1; });
-      var s = '<svg viewBox="0 0 600 330" role="img" aria-label="A simple family tree with grandparents, parents, aunt, you, a sister and a cousin">';
+      var s = '<svg viewBox="0 0 600 420" role="img" aria-label="A simple family tree with grandparents, parents, aunt, you, a sister and a cousin">';
       s += '<g stroke="#b9a98a" stroke-width="3" fill="none" stroke-linecap="round">';
       LINKS.forEach(function (l) {
         var a = PEOPLE[l[0]], b = PEOPLE[l[1]], hot = on[l[0]] && on[l[1]];
-        s += '<path d="M' + a.x + ',' + (a.y + 56) + ' C' + a.x + ',' + (a.y + 84) + ' ' + b.x + ',' + (b.y - 62) + ' ' + b.x + ',' + (b.y - 34) + '" ' + (hot ? 'stroke="#ff6b3d" stroke-width="5"' : '') + '/>';
+        s += '<path d="M' + a.x + ',' + (a.y + 72) + ' C' + a.x + ',' + (a.y + 100) + ' ' + b.x + ',' + (b.y - 76) + ' ' + b.x + ',' + (b.y - 50) + '" ' + (hot ? 'stroke="#ff6b3d" stroke-width="5"' : '') + '/>';
       });
       s += '</g>';
+      var FAM = window.FAMILY || {};
       Object.keys(PEOPLE).forEach(function (k) {
-        var p = PEOPLE[k], hot = on[k];
-        s += '<g class="bas-person' + (hot ? ' hot' : '') + '"><circle cx="' + p.x + '" cy="' + p.y + '" r="30" fill="' + (hot ? '#fff1d6' : '#fff') + '" stroke="' + (hot ? '#ff6b3d' : '#d9cfb8') + '" stroke-width="' + (hot ? 5 : 3) + '"/>' +
-          '<text x="' + p.x + '" y="' + (p.y + 9) + '" text-anchor="middle" font-size="28">' + p.e + '</text><text x="' + p.x + '" y="' + (p.y + 50) + '" text-anchor="middle" font-size="14" font-weight="800" fill="#2f3b5c">' + esc(p.n) + '</text></g>';
+        var p = PEOPLE[k], hot = on[k], im = FAM[p.img] || (p.img === 'you' && window.Art && window.Art.has('human') ? { art: 'human' } : null);
+        var x0 = p.x - 40, y0 = p.y - 52;
+        s += '<g class="bas-person' + (hot ? ' hot' : '') + '"><rect x="' + x0 + '" y="' + y0 + '" width="80" height="104" rx="18" fill="' + (hot ? '#fff1d6' : '#fffdf8') + '" stroke="' + (hot ? '#ff6b3d' : '#d9cfb8') + '" stroke-width="' + (hot ? 5 : 3) + '"/>';
+        if (im && im.src) {
+          var asp = im.aspect || 1.6, w = 72, h = w * asp; if (h > 96) { h = 96; w = h / asp; }
+          s += '<image href="' + im.src + '" x="' + (p.x - w / 2) + '" y="' + (p.y + 48 - h) + '" width="' + w + '" height="' + h + '" preserveAspectRatio="xMidYMax meet"/>';
+        } else if (im && im.art) {
+          s += '<image href="assets/art/' + im.art + '.webp" x="' + (p.x - 38) + '" y="' + (p.y - 26) + '" width="76" height="57" preserveAspectRatio="xMidYMid meet"/>';
+        } else {
+          s += '<g fill="#d9cfb8"><circle cx="' + p.x + '" cy="' + (p.y - 16) + '" r="15"/><path d="M' + (p.x - 28) + ',' + (p.y + 44) + ' C' + (p.x - 28) + ',' + (p.y + 8) + ' ' + (p.x + 28) + ',' + (p.y + 8) + ' ' + (p.x + 28) + ',' + (p.y + 44) + ' Z"/></g>';
+        }
+        s += '<text x="' + p.x + '" y="' + (p.y + 70) + '" text-anchor="middle" font-size="15" font-weight="800" fill="#2f3b5c">' + esc(p.n) + '</text></g>';
       });
-      s += '<text x="8" y="44" font-size="12" fill="#8a7d63">2 gens back</text><text x="8" y="154" font-size="12" fill="#8a7d63">1 gen back</text><text x="8" y="269" font-size="12" fill="#8a7d63">now</text></svg>';
+      s += '<text x="8" y="66" font-size="12" fill="#8a7d63">2 gens back</text><text x="8" y="210" font-size="12" fill="#8a7d63">1 gen back</text><text x="8" y="354" font-size="12" fill="#8a7d63">now</text></svg>';
       wrap.innerHTML = s; note.innerHTML = F.text;
       Array.prototype.forEach.call(chips.children, function (c) { var on2 = c.getAttribute('data-k') === sel; c.classList.toggle('on', on2); c.setAttribute('aria-pressed', on2 ? 'true' : 'false'); });
     }
@@ -57,11 +65,11 @@
 
   /* ---------------- 2. generations and time ---------------- */
   var KINDS = [
-    { id: 'bacteria', n: 'Bacteria 🦠', yr: 20 / 525600, say: 'about 20 minutes' },
-    { id: 'mouse', n: 'Mouse 🐭', yr: 1, say: 'about 1 year' },
-    { id: 'chicken', n: 'Chicken 🐔', yr: 1.5, say: 'about 1 to 2 years' },
-    { id: 'human', n: 'Human 🧒', yr: 25, say: 'about 25 years' },
-    { id: 'dino', n: 'Big dinosaur 🦖', yr: 20, say: 'roughly 15 to 25 years (estimate)' }
+    { id: 'bacteria', n: 'Bacteria', yr: 20 / 525600, say: 'about 20 minutes' },
+    { id: 'mouse', n: 'Mouse', yr: 1, say: 'about 1 year' },
+    { id: 'chicken', n: 'Chicken', yr: 1.5, say: 'about 1 to 2 years' },
+    { id: 'human', n: 'Human', yr: 25, say: 'about 25 years' },
+    { id: 'dino', n: 'Big dinosaur', yr: 20, say: 'roughly 15 to 25 years (estimate)' }
   ];
   var STOPS = [
     { n: 'The Roman Empire', mya: 0.002 }, { n: 'The last ice age ended', mya: 0.012 }, { n: 'First humans (Homo sapiens)', mya: 0.3 },
@@ -111,18 +119,18 @@
   }
 
   /* ---------------- 3. extinction ---------------- */
-  var TREE = { id: 'root', n: 'Amniotes 🥚', kids: [
-    { id: 'syn', n: 'Mammal side', kids: [{ id: 'mam', n: 'Mammals 🐘', alive: true }] },
+  var TREE = { id: 'root', n: 'Amniotes', kids: [
+    { id: 'syn', n: 'Mammal side', kids: [{ id: 'mam', n: 'Mammals', alive: true }] },
     { id: 'sau', n: 'Reptile-and-bird side', kids: [
-      { id: 'lep', n: 'Lizards and snakes 🦎', alive: true, sub: ['Mosasaurs (extinct) were in this group'] },
-      { id: 'tur', n: 'Turtles 🐢', alive: true },
-      { id: 'ple', n: 'Plesiosaurs 🦕', alive: false, note: 'Sea reptiles. All gone about 66 million years ago.' },
+      { id: 'lep', n: 'Lizards and snakes', alive: true, sub: ['Mosasaurs (extinct) were in this group'] },
+      { id: 'tur', n: 'Turtles', alive: true },
+      { id: 'ple', n: 'Plesiosaurs', alive: false, note: 'Sea reptiles. All gone about 66 million years ago.' },
       { id: 'arc', n: 'Archosaurs', kids: [
-        { id: 'cro', n: 'Crocodiles 🐊', alive: true },
+        { id: 'cro', n: 'Crocodiles', alive: true },
         { id: 'pte', n: 'Pterosaurs', alive: false, note: 'Flying reptiles. All gone about 66 million years ago.' },
         { id: 'din', n: 'Dinosaurs', kids: [
           { id: 'ndi', n: 'Non-bird dinosaurs (T. rex, Triceratops…)', alive: false, note: 'All gone about 66 million years ago.' },
-          { id: 'bir', n: 'Birds 🐦', alive: true }
+          { id: 'bir', n: 'Birds', alive: true }
         ] }
       ] }
     ] }
@@ -135,7 +143,7 @@
     var root = document.createElement('section'); root.className = 'card bas-sec';
     root.innerHTML = '<h2 class="bas-h2">3. When a branch ends: extinction</h2>' +
       '<p>An animal group is <b>extinct</b> when none of its members are left, <b>and</b> it has no living descendants. On a family tree that is a branch that stops. A group is only "alive" if at least one twig beyond it is still alive.</p>' +
-      '<div class="bas-ex-intro"><b>🐦 Think about it:</b> imagine every bird died out tomorrow. Birds are living dinosaurs, so that would be the end of the whole dinosaur family tree. The "dinosaurs died out" story is really "all the dinosaurs except the birds died out". Pterosaurs and plesiosaurs left no descendants at all, so their branches really did end.</div>' +
+      '<div class="bas-ex-intro"><b>Think about it:</b> imagine every bird died out tomorrow. Birds are living dinosaurs, so that would be the end of the whole dinosaur family tree. The "dinosaurs died out" story is really "all the dinosaurs except the birds died out". Pterosaurs and plesiosaurs left no descendants at all, so their branches really did end.</div>' +
       '<div class="bas-chips" id="exPre"></div><div class="bas-tree" id="exTree" role="tree" aria-label="Family tree showing which groups are alive"></div><div class="bas-note" id="exNote" aria-live="polite"></div>' +
       '<h3 class="bas-h3">Extinctions we know about</h3><div class="bas-cards" id="exCards"></div>' +
       '<p class="bas-small">A mass extinction is when many groups die out at nearly the same time. The biggest was about 252 million years ago. The one that ended the non-bird dinosaurs, about 66 million years ago, followed an asteroid hit.</p>';
@@ -149,7 +157,7 @@
       var a = alive(n), leaf = !n.kids;
       var h = '<div class="bas-node' + (a ? ' alive' : ' dead') + (leaf ? ' leaf' : '') + '" role="treeitem" style="--d:' + depth + '">' +
         (leaf ? '<button type="button" class="bas-toggle" data-leaf="' + n.id + '" aria-pressed="' + (a ? 'true' : 'false') + '" aria-label="' + esc(n.n) + ': ' + (a ? 'alive. Tap to make it go extinct' : 'extinct. Tap to bring it back') + '">' : '<span class="bas-toggle plain">') +
-        '<span class="bas-dot" aria-hidden="true">' + (a ? '🟢' : '⚫') + '</span><span class="bas-name">' + esc(n.n) + '</span><span class="bas-state">' + (a ? 'alive' : 'line ended') + '</span>' + (leaf ? '</button>' : '</span>') + '</div>';
+        '<span class="bas-dot ' + (a ? 'on' : 'off') + '" aria-hidden="true"></span><span class="bas-name">' + esc(n.n) + '</span><span class="bas-state">' + (a ? 'alive' : 'line ended') + '</span>' + (leaf ? '</button>' : '</span>') + '</div>';
       if (n.kids) h += '<div class="bas-kids">' + n.kids.map(function (k) { return render(k, depth + 1); }).join('') + '</div>';
       return h;
     }
@@ -180,20 +188,20 @@
       }
     });
     var cards = [
-      { e: '🐺', t: 'Thylacine (Tasmanian tiger)', x: 'The last known one died in a zoo in 1936. Hunting and losing its habitat ended the whole line.' },
-      { e: '🐦', t: 'Dodo', x: 'A flightless pigeon from Mauritius. It was gone within about 100 years of people arriving, in the 1600s.' },
-      { e: '🕊️', t: 'Passenger pigeon', x: 'Once billions flew in huge flocks in North America. The last one, Martha, died in 1914.' },
-      { e: '🦣', t: 'Woolly mammoth', x: 'Small groups lived on an Arctic island until about 4,000 years ago. Then the line ended.' },
-      { e: '🦕', t: 'Plesiosaurs and pterosaurs', x: 'Each group lasted over 100 million years, then left no descendants. Extinction does not mean a group was a failure.' }
+      { e: '', t: 'Thylacine (Tasmanian tiger)', x: 'The last known one died in a zoo in 1936. Hunting and losing its habitat ended the whole line.' },
+      { e: '', t: 'Dodo', x: 'A flightless pigeon from Mauritius. It was gone within about 100 years of people arriving, in the 1600s.' },
+      { e: '', t: 'Passenger pigeon', x: 'Once billions flew in huge flocks in North America. The last one, Martha, died in 1914.' },
+      { e: '', t: 'Woolly mammoth', x: 'Small groups lived on an Arctic island until about 4,000 years ago. Then the line ended.' },
+      { e: '', t: 'Plesiosaurs and pterosaurs', x: 'Each group lasted over 100 million years, then left no descendants. Extinction does not mean a group was a failure.' }
     ];
-    root.querySelector('#exCards').innerHTML = cards.map(function (c) { return '<div class="bas-card"><span class="bas-card-e">' + c.e + '</span><b>' + esc(c.t) + '</b><p>' + esc(c.x) + '</p></div>'; }).join('');
+    root.querySelector('#exCards').innerHTML = cards.map(function (c) { return '<div class="bas-card"><b>' + esc(c.t) + '</b><p>' + esc(c.x) + '</p></div>'; }).join('');
     draw();
   }
 
   window.Views.basics = {
-    title: 'Start here', icon: '🌳',
+    title: 'Start here', icon: '',
     mount: function (el, ctx) {
-      el.innerHTML = '<section class="card bas-hero"><h1 class="page-title">Start here 🌳</h1><p>Three big ideas make the rest of this album easy: <b>family trees</b>, <b>generations</b>, and what <b>extinct</b> really means.</p></section>';
+      el.innerHTML = '<section class="card bas-hero"><h1 class="page-title">Start here</h1><p>Three big ideas make the rest of this album easy: <b>family trees</b>, <b>generations</b>, and what <b>extinct</b> really means.</p></section>';
       familyTree(el, ctx); generations(el, ctx); extinction(el, ctx);
       return function () { };
     }
