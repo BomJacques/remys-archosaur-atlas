@@ -22,7 +22,7 @@
   function slider(a, b, la, lb, alt) {
     var asp = Math.max(a.aspect, b.aspect), id = 'sl' + Math.random().toString(36).slice(2, 8);
     return '<div class="wi-cmp" style="--asp:' + (1 / asp).toFixed(3) + '">' +
-      '<div class="wi-frame"><img class="wi-img" src="' + a.src + '" alt="' + alt + ' (' + la + ')" loading="lazy">' +
+      '<div class="wi-frame"><img class="wi-img wi-base" src="' + a.src + '" alt="' + alt + ' (' + la + ')" loading="lazy" style="clip-path: inset(0 50% 0 0)">' +
       '<img class="wi-img wi-top" src="' + b.src + '" alt="' + alt + ' (' + lb + ')" loading="lazy" style="clip-path: inset(0 0 0 50%)"><span class="wi-bar" style="left:50%"></span></div>' +
       '<div class="wi-labels"><span>' + la + '</span><span>' + lb + '</span></div>' +
       '<input type="range" min="0" max="100" value="50" class="wi-range" id="' + id + '" aria-label="Slide to compare: ' + la + ' and ' + lb + '"></div>';
@@ -63,6 +63,7 @@
         var r = e.target.closest('.wi-range'); if (!r) return;
         var f = r.closest('.wi-cmp'), v = +r.value;
         f.querySelector('.wi-top').style.clipPath = 'inset(0 0 0 ' + v + '%)';
+        f.querySelector('.wi-base').style.clipPath = 'inset(0 ' + (100 - v) + '% 0 0)';
         f.querySelector('.wi-bar').style.left = v + '%';
       }
       el.addEventListener('input', onInput);
