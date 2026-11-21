@@ -19,6 +19,14 @@
       function path() { return D.pathTo(S.animal); }
       function mya0(t) { return t.modern ? 0 : Math.max(0, t.mya || 0); }
       function maxM() { var pa = path(); return Math.max(1, Math.ceil(pa[0].mya || 300)); }
+      /* Time is drawn on a squashed (log) scale so 4 billion years still leaves room for the dinosaurs.
+         wp: millions of years ago -> 0..1 (0 = oldest, left; 1 = today, right). wm is the inverse. */
+      var SL = 1000;
+      function wp(m, maxm) { return 1 - Math.log(1 + Math.max(0, m)) / Math.log(1 + maxm); }
+      function wm(p, maxm) { return Math.exp((1 - p) * Math.log(1 + maxm)) - 1; }
+      function bil(m) { return (Math.round(m / 100) / 10).toString().replace(/\.0$/, ''); }
+      function fmtBig(m) { m = Math.round(m); return m >= 1000 ? '≈ ' + bil(m) + ' billion years ago' : '≈ ' + m + ' million years ago'; }
+      function fmtShort(m) { return m >= 1000 ? bil(m) + ' Bya' : m + ' Mya'; }
       function eraOf(t) { return UI.eraFor(D, mya0(t)); }
       function colorOf(t) { var e = eraOf(t); return (e && e.color) || '#ff6b3d'; }
       function leaves(id) {
@@ -99,13 +107,13 @@
         var nodes = pa.map(function (t, i) {
           var cn = i < pa.length - 1 ? cousinsAt(i).length : 0;
           return (i ? '<span class="pconn" aria-hidden="true"></span>' : '') +
-            '<button class="pnode" data-i="' + i + '" style="--c:' + esc(colorOf(t)) + '" aria-label="' + esc(t.name + ', ' + (mya0(t) ? mya0(t) + ' million years ago' : 'today')) + '">' +
+            '<button class="pnode" data-i="' + i + '" style="--c:' + esc(colorOf(t)) + '" aria-label="' + esc(t.name + ', ' + (mya0(t) ? fmtBig(mya0(t)) : 'today')) + '">' +
             '<span class="pn-art">' + art(t) + '</span><span class="pn-name">' + esc(t.name) + '</span>' +
-            '<span class="pn-mya">' + (mya0(t) ? mya0(t) + ' Mya' : 'today') + '</span>' +
+            '<span class="pn-mya">' + (mya0(t) ? fmtShort(mya0(t)) : 'today') + '</span>' +
             (cn ? '<span class="pn-badge" title="' + cn + ' side branch' + (cn > 1 ? 'es' : '') + '">+' + cn + '</span>' : '') + '</button>';
         }).join('');
         var marks = pa.map(function (t) {
-          return '<span class="smark" style="left:' + UI.clamp((maxm - mya0(t)) / maxm * 100, 0, 100) + '%"></span>';
+          return '<span class="smark" style="left:' + UI.clamp(wp(mya0(t), maxm) * 100, 0, 100) + '%"></span>';
         }).join('');
         body.innerHTML =
           '<div class="pathwrap" id="pathWrap"><div class="path" id="pathEl" role="list">' + nodes + '</div></div>' +
@@ -113,21 +121,21 @@
           '<div class="sl-top"><button class="btn" id="playBtn">▶ Play the journey</button>' +
           '<div class="sl-time"><span class="sl-big" id="slBig"></span><span class="sl-era" id="slEra"></span></div></div>' +
           '<div class="sl-track-wrap"><div class="sl-marks">' + marks + '</div>' +
-          '<input class="sl" id="sl" type="range" min="0" max="' + maxm + '" step="1" value="' + maxm + '" aria-label="Time slider: drag to travel back in time" style="--track:' + trackGradient(maxm) + '">' +
-          '</div><div class="sl-ends"><span>◀ ' + maxm + ' million years ago</span><span>Today ▶</span></div></div>' +
+          '<input class="sl" id="sl" type="range" min="0" max="' + SL + '" step="1" value="' + SL + '" aria-label="Time slider: drag to travel back in time" style="--track:' + trackGradient(maxm) + '">' +
+          '</div><div class="sl-ends"><span>◀ ' + fmtBig(maxm).replace('≈ ', '') + '</span><span>Today ▶</span></div></div>' +
           '<div class="stage" id="stage"></div><div id="cousins"></div>';
         pathEl = body.querySelector('#pathEl'); stageEl = body.querySelector('#stage');
         stageEl.innerHTML = '<div class="scene" id="scene"><div class="scene-bg" id="sceneBg"></div><div class="scene-art" id="sceneArt"></div>' +
           '<span class="scene-era" id="sceneEra"></span></div><div class="info" id="info"></div>';
         S.eraId = null;
         select(S.idx, { noTween: true, noScroll: false, instant: true });
-        var s = body.querySelector('#sl'); s.value = maxm - mya0(pa[S.idx]);
+        var s = body.querySelector('#sl'); s.value = Math.round(wp(mya0(pa[S.idx]), maxm) * SL);
         paintSlider();
       }
       function trackGradient(maxm) {
         var stops = [];
         (D.eras || []).forEach(function (e) {
-          var a = (maxm - e.startMya) / maxm, b = (maxm - e.endMya) / maxm;
+          var a = wp(Math.min(e.startMya, maxm), maxm), b = wp(e.endMya, maxm);
           if (b <= 0 || a >= 1) return;
           a = UI.clamp(a, 0, 1); b = UI.clamp(b, 0, 1);
           stops.push(e.color + ' ' + (a * 100).toFixed(1) + '%', e.color + ' ' + (b * 100).toFixed(1) + '%');
@@ -136,9 +144,9 @@
       }
       function paintSlider() {
         var s = body.querySelector('#sl'); if (!s) return;
-        var m = maxM() - (+s.value);
+        var m = Math.max(0, wm(+s.value / SL, maxM()));
         var big = body.querySelector('#slBig'), er = body.querySelector('#slEra');
-        if (big) big.textContent = m <= 0 ? 'Today' : '≈ ' + m + ' million years ago';
+        if (big) big.textContent = m < 0.5 ? 'Today' : fmtBig(m);
         var e = UI.eraFor(D, m);
         if (er && e) er.textContent = e.name;
       }
@@ -162,7 +170,7 @@
           b.classList.toggle('on', on); b.classList.toggle('past', +b.getAttribute('data-i') < i);
           if (on) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
         });
-        if (!o.fromSlider) tween(maxM() - mya0(pa[i]));
+        if (!o.fromSlider) tween(Math.round(wp(mya0(pa[i]), maxM()) * SL));
         var on = pathEl.querySelector('.pnode.on'), wrap = body.querySelector('#pathWrap');
         if (on && wrap) {
           var left = on.offsetLeft - (wrap.clientWidth - on.offsetWidth) / 2;
@@ -271,7 +279,7 @@
         var W = 900, padL = 28, padR = 170, padT = 54, rowH = 34, maxm = Math.max(root.mya, 320);
         D.taxa.forEach(function (t) {
           var m = t.modern ? 0 : (t.mya || 0);
-          pos[t.id].x = padL + (maxm - m) / maxm * W;
+          pos[t.id].x = padL + wp(m, maxm) * W;
           pos[t.id].y = padT + pos[t.id].row * rowH;
         });
         TL = { pos: pos, W: W, padL: padL, padR: padR, padT: padT, rowH: rowH, maxm: maxm, rows: row, w: W + padL + padR, h: padT + row * rowH + 20 };
@@ -281,7 +289,7 @@
         var L = layout(); if (!S.sel) S.sel = S.animal;
         var svg = '<svg class="tree-svg" id="treeSvg" viewBox="0 0 ' + L.w + ' ' + L.h + '" width="' + (L.w * S.zoom) + '" height="' + (L.h * S.zoom) + '" role="group" aria-label="Family tree of all animals in the album">';
         (D.eras || []).forEach(function (e) {
-          var x1 = L.padL + (L.maxm - Math.min(e.startMya, L.maxm)) / L.maxm * L.W, x2 = L.padL + (L.maxm - e.endMya) / L.maxm * L.W;
+          var x1 = L.padL + wp(Math.min(e.startMya, L.maxm), L.maxm) * L.W, x2 = L.padL + wp(e.endMya, L.maxm) * L.W;
           if (x2 <= x1) return;
           svg += '<rect x="' + x1 + '" y="0" width="' + (x2 - x1) + '" height="' + L.h + '" fill="' + esc(e.color) + '" opacity=".13"/>' +
             '<text class="era-lbl" x="' + (x1 + 6) + '" y="22" fill="' + esc(e.color) + '">' + esc(e.name) + '</text>';
@@ -460,7 +468,7 @@
       function onInput(e) {
         if (e.target.id !== 'sl') return;
         stopPlay(); cancelAnimationFrame(raf); paintSlider();
-        var i = nodeAt(maxM() - (+e.target.value));
+        var i = nodeAt(Math.max(0, wm(+e.target.value / SL, maxM())));
         if (i !== S.idx) select(i, { fromSlider: true });
       }
       function onKey(e) {

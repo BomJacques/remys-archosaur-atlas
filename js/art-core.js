@@ -52,6 +52,7 @@
     fmtMya: function (m) {
       if (m == null) return '';
       if (m <= 0) return 'today';
+      if (m >= 1000) return 'about ' + (Math.round(m / 100) / 10).toString().replace(/\.0$/, '') + ' billion years ago';
       return 'about ' + m + ' million years ago';
     },
     /* era containing a time (Mya) */

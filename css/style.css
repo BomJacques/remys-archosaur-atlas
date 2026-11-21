@@ -92,21 +92,21 @@ svg.art { display: block; width: 100%; height: 100%; }
 
 /* ---------- buttons ---------- */
 .btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; padding: 10px 20px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 48px; padding: 8px 14px;
   border: 0; border-radius: 16px; background: var(--accent); color: #fff; font-weight: 800; font-size: 17px; text-align: center;
   box-shadow: 0 4px 0 rgba(0,0,0,.18); transition: transform .12s, box-shadow .12s, filter .2s; -webkit-user-select: none; user-select: none;
 }
 .btn:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(0,0,0,.18); }
 .btn:disabled { opacity: .4; box-shadow: none; cursor: default; }
 .btn-ghost { background: #fff; color: var(--ink); box-shadow: 0 4px 0 var(--line); border: 2px solid var(--line); }
-.btn-big { min-height: 60px; font-size: 20px; padding: 12px 28px; }
+.btn-big { min-height: 56px; font-size: 19px; padding: 10px 20px; }
 .btn-ar { background: var(--purple); }
 .btn-yes { background: var(--good); } .btn-no { background: var(--bad); }
 
 /* ---------- chips & tabs ---------- */
 .chips { display: flex; gap: 10px; overflow-x: auto; padding: 8px 4px 14px; -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; }
 .chip {
-  flex: none; display: flex; align-items: center; gap: 8px; min-height: 56px; padding: 4px 16px 4px 6px; border-radius: 30px;
+  flex: none; display: flex; align-items: center; gap: 8px; min-height: 52px; padding: 4px 10px 4px 5px; border-radius: 30px;
   background: #fff; border: 3px solid var(--line); font-weight: 800; font-size: 17px; scroll-snap-align: start; transition: transform .15s, background .2s, border-color .2s;
 }
 .chip:active { transform: scale(.96); }
@@ -150,7 +150,11 @@ svg.art { display: block; width: 100%; height: 100%; }
   border-radius: 20px; border: 3px solid var(--line); background: #fff; scroll-snap-align: center; transition: transform .25s, border-color .25s, background .25s, box-shadow .25s; text-align: center;
 }
 .pnode .pn-art { width: 96px; height: 68px; border-radius: 14px; background: color-mix(in srgb, var(--c) 18%, #fff); padding: 2px; }
-.pn-name { font-weight: 900; font-size: 15px; line-height: 1.1; margin-top: 4px; }
+.pn-name { font-weight: 900; font-size: 14px; line-height: 1.12; margin-top: 4px; max-width: 100%; overflow: hidden; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+.pnode { min-width: 0; overflow: visible; }
+.pnode .pn-art svg { width: 100%; height: 100%; display: block; }
+.chip-t { white-space: normal; text-align: left; line-height: 1.15; max-width: 170px; overflow: hidden; overflow-wrap: anywhere; }
+.co-name, .ac-name { overflow-wrap: anywhere; }
 .pn-mya { font-size: 14px; color: var(--muted); font-weight: 700; }
 .pn-badge { position: absolute; top: -8px; right: -6px; min-width: 32px; padding: 2px 8px; border-radius: 14px; background: var(--good); color: #fff; font-weight: 900; font-size: 14px; box-shadow: 0 2px 0 rgba(0,0,0,.2); }
 .pnode.past { background: #fbf6ec; }

@@ -17,7 +17,7 @@
 
 /* ---------- buttons (48px+ targets) ---------- */
 .lab-btn, .giants-btn {
-  font: inherit; font-weight: 700; min-height: 48px; min-width: 48px; padding: 8px 18px; border-radius: 999px;
+  font: inherit; font-weight: 700; min-height: 48px; min-width: 44px; padding: 6px 12px; border-radius: 999px;
   border: 2px solid #c9d4e2; background: #fff; color: var(--l-ink); cursor: pointer; touch-action: manipulation;
   -webkit-tap-highlight-color: transparent; transition: transform .12s, background .12s;
 }
@@ -26,7 +26,7 @@
 .lab-btn:disabled, .giants-btn:disabled { opacity: .5; cursor: default; }
 .lab-primary, .giants-primary { background: var(--l-accent); border-color: var(--l-accent); color: #fff; }
 .lab-ghost, .giants-ghost { background: transparent; }
-.lab-chip, .giants-chip { padding: 8px 16px; }
+.lab-chip, .giants-chip { padding: 6px 12px; }
 .lab-chip.is-on, .giants-chip.is-on { background: #dcecff; border-color: var(--l-accent); color: #0f4a96; }
 .lab-small { min-height: 48px; font-size: .95rem; width: 100%; margin-top: 8px; border-radius: 12px; }
 .lab-chips, .giants-chips, .lab-actions, .giants-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0; }
