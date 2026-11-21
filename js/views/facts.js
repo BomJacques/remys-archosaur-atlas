@@ -11,7 +11,7 @@
       text: 'Dugongs and manatees ("sea cows") look like they should be dolphin cousins, because they live in the sea. But their family tree says their nearest relatives are elephants and hyraxes.',
       why: 'Their ancestors walked on land, then went back to the water. Living in water shaped their bodies, but not their family tree.', conf: 'solid' },
     { id: 'hippo', emoji: '🦛', tag: 'cousins', title: 'Hippos are closer kin to whales than to pigs',
-      text: 'The closest living relatives of whales and dolphins are hippos! The ancestor of both was a land animal that lived about 55 million years ago.',
+      text: 'The closest living relatives of whales and dolphins are hippos! The ancestor of both was a land animal that lived about 55 to 60 million years ago.',
       why: 'Whales are mammals whose ancestors walked on land. Look inside a whale and you can find tiny leftover hip bones.', conf: 'solid' },
     { id: 'bat', emoji: '🦇', tag: 'cousins', title: 'A bat is closer kin to a cow than to a mouse',
       text: 'Bats look a bit like flying mice, but DNA says they are in the same big branch as horses, cows, dogs and whales instead.',
@@ -28,8 +28,8 @@
     { id: 'magpie-mirror', emoji: '🪞', tag: 'dino', title: 'A magpie can recognise itself in a mirror',
       text: 'Eurasian magpies have passed a mirror test that only a few animals pass. Living dinosaurs can be very clever.',
       why: 'Big brains evolved more than once. Corvids (the crow and magpie family) and apes both got there on their own.', conf: 'solid', go: ['lineage', 'magpie'] },
-    { id: 'hummer', emoji: '🐝', tag: 'dino', title: 'The smallest dinosaur alive weighs about as much as a paperclip',
-      text: 'The bee hummingbird is a living dinosaur, only about 6 cm long and around 2 grams. Its ancestors included animals as big as a bus.',
+    { id: 'hummer', emoji: '🐝', tag: 'dino', title: 'The smallest dinosaur alive weighs about as much as two paperclips',
+      text: 'The bee hummingbird is a living dinosaur, only about 6 cm long and around 2 grams, about the weight of two paperclips. Its ancestors included animals as big as a bus.',
       why: 'Shrinking can be an advantage too. Small bodies and fast wings let hummingbirds hover and sip nectar.', conf: 'solid', go: ['lineage', 'hummingbird'] },
     { id: 'wishbone', emoji: '🥢', tag: 'dino', title: 'Your Sunday-roast wishbone is a dinosaur bone',
       text: 'The wishbone (furcula) is two collarbones joined together. Many theropod dinosaurs, including T. rex, had one too.',
@@ -44,7 +44,7 @@
       text: 'Cassowaries are huge, flightless birds with a head crest and a dagger-like claw about as long as your hand. They are shy but they are very dangerous if cornered.',
       why: 'Flightlessness evolved many times in birds that had plenty of food on the ground and few predators.', conf: 'solid' },
     { id: 'dolphin-ichthyo', emoji: '🐬', tag: 'lookalike', title: 'Dolphins and ichthyosaurs look alike but are not related',
-      text: 'Ichthyosaurs were reptiles that lived in the sea at the same time as the dinosaurs. They had a dolphin-shaped body, a fin on the back and a tail fluke. Dolphins are mammals that evolved the same shape about 150 million years later.',
+      text: 'Ichthyosaurs were reptiles that lived in the sea at the same time as the dinosaurs. They had a dolphin-shaped body, a fin on the back and a tail fluke. Dolphins are mammals that evolved a similar shape tens of millions of years after the ichthyosaurs had died out.',
       why: 'This is called convergent evolution: the same problem (fast swimming) can lead to the same shape in very different animals.', conf: 'solid' },
     { id: 'rhino-trike', emoji: '🦏', tag: 'lookalike', title: 'A rhino is the modern Triceratops, but not a relative',
       text: 'Big, heavy plant-eaters with horns on the face evolved twice: ceratopsian dinosaurs and, much later, rhinos. They are far apart on the tree.',
@@ -77,7 +77,7 @@
       text: 'Humans and chimpanzees are cousins. We share a common ancestor from about 6 to 7 million years ago, which was neither a human nor a chimp.',
       why: 'Evolution is a branching bush, not a ladder, and nobody is the "final form".', conf: 'solid', go: ['lineage', 'human'] },
     { id: 'living-fossil', emoji: '🦖', tag: 'evo', title: 'Crocodiles are not "unchanged dinosaurs"',
-      text: 'Crocodile ancestors were not dinosaurs, and early crocodile relatives were very different: some ran on two legs and some were armoured plant-eaters. Today\'s crocodiles kept a body plan that works.',
+      text: 'Crocodile ancestors were not dinosaurs, and early crocodile relatives were very different: some ran on slim upright legs, and a relative group, the aetosaurs, were armoured plant-eaters. Today\'s crocodiles kept a body plan that works.',
       why: 'If a shape keeps working in a stable home, selection keeps it. That is different from "not changing".', conf: 'solid', go: ['lineage', 'crocodile'] }
   ];
   window.FACTS = FACTS;

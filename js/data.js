@@ -26,7 +26,7 @@
     { id: 'devonian', name: 'Devonian', startMya: 419, endMya: 359, color: '#8a6fc1',
       blurb: "The Age of Fishes. Some fish grow strong fins, and the first four-legged animals like Acanthostega appear in shallow water.", sceneArtId: 'scene-late-devonian-375-to-365-million-years' },
     { id: 'carboniferous', name: 'Carboniferous', startMya: 359, endMya: 299, color: '#5b8c5a',
-      blurb: "Steamy swamp forests with giant ferns and dragonfly-like insects as big as crows. Near the end, the first amniotes (animals whose eggs can survive on dry land) appear.", sceneArtId: 'scene-permian' },
+      blurb: "Steamy swamp forests with giant ferns and dragonfly-like insects as big as crows. In the middle of this time, the first amniotes (animals whose eggs can survive on dry land) appear.", sceneArtId: 'scene-permian' },
     { id: 'permian', name: 'Permian', startMya: 299, endMya: 252, color: '#c8743a',
       blurb: "One huge supercontinent with hot, dry deserts. Sail-backed Dimetrodon and other mammal-side animals rule. It ends with the biggest mass extinction ever.", sceneArtId: 'scene-permian' },
     { id: 'triassic', name: 'Triassic', startMya: 252, endMya: 201, color: '#a65d7e',
@@ -81,19 +81,19 @@
     "Every mammal, lizard, bird, croc and dinosaur has this animal's blood in the family. Our whole album starts here.",
     ["Early amniotes like Hylonomus were about the size of a lizard, around 20 cm long.", "Their eggs had a built-in water bag (the amnion), so they did not need to lay eggs in a pond like frogs do.", "Soon after they appeared, the family split into two big branches: the mammal side and the reptile-and-bird side."]);
 
-  T('synapsid', 'amniote', 'Synapsids', 'Mammal-side cousins', 'Synapsids', 315, 'group', 'Varied: insects to meat', 1.5, 20, 'Swamps and deserts',
+  T('synapsid', 'amniote', 'Synapsids', 'Mammal-side cousins', 'Synapsids', 308, 'group', 'Varied: insects to meat', 1.5, 20, 'Swamps and deserts',
     "Synapsids are the branch that leads to mammals, including us. They have one opening low on each side of the skull behind the eye.",
     "One hole on each side of the skull (the word synapsid means 'fused arch'), which gave jaw muscles room to grow bigger.",
     "Our own branch split off from the reptile-and-bird branch over 300 million years ago. We are very distant cousins of lizards and birds, not descendants.",
     ["Old books called early synapsids 'mammal-like reptiles'. Scientists stopped using that name because they were never reptiles.", "Synapsids were the top land animals for much of the Permian.", "Only mammals survive today from this big branch."]);
 
   T('dimetrodon', 'synapsid', 'Dimetrodon', 'Sail-back (not a dinosaur!)', 'Synapsids', 280, 'species', 'Carnivore', 3.0, 250, 'Dry Permian plains',
-    "Dimetrodon had a tall sail on its back and big teeth of different shapes. It lived about 30 million years BEFORE the first dinosaur.",
+    "Dimetrodon had a tall sail on its back and big teeth of different shapes. It lived at least 30 million years BEFORE the first dinosaur.",
     "Teeth of different shapes (stabbing, slicing) like mammals have, and a synapsid skull.",
     "Dimetrodon shows how a look-alike can be a cousin from a totally different branch. It is closer to you than it is to any dinosaur.",
     ["It is not a dinosaur, and not really a reptile: it is on the mammal side of the tree.", "The sail may have helped it warm up or show off. Scientists are still not sure which.", "Dimetrodon went extinct about 270 million years ago, long before dinosaurs existed."]);
 
-  T('cynodont', 'synapsid', 'Cynodonts', 'Furry almost-mammal', 'Synapsids', 250, 'group', 'Insects and small prey', 0.5, 3, 'Triassic woodlands and burrows',
+  T('cynodont', 'synapsid', 'Cynodonts', 'Furry almost-mammal', 'Synapsids', 260, 'group', 'Insects and small prey', 0.5, 3, 'Triassic woodlands and burrows',
     "Cynodonts were small, fast animals that were probably warm-blooded and likely furry. They survived the biggest mass extinction.",
     "Whiskers and fur are likely (we infer them from tiny holes in the face bones), plus a more mammal-like jaw and teeth.",
     "Mammals did not appear in a single jump. Fossils show many small steps, so we can see the change happening across generations.",
@@ -117,7 +117,7 @@
     "Humans are one twig on the tree, not the top of a ladder. Every living species has been evolving for exactly as long as we have.",
     ["Humans appeared only about 300,000 years ago.", "You share a common ancestor with a magpie that lived around 318 million years ago.", "Your ear bones began as jaw bones in your distant cynodont cousins."]);
 
-  T('sauropsid', 'amniote', 'Sauropsids', 'Scaly and feathery side', 'Sauropsids', 310, 'group', 'Varied', 0.3, 0.5, 'Carboniferous forests',
+  T('sauropsid', 'amniote', 'Sauropsids', 'Scaly and feathery side', 'Sauropsids', 318, 'group', 'Varied', 0.3, 0.5, 'Carboniferous forests',
     "Sauropsids are the other big amniote branch. It includes lizards, snakes, turtles, crocodiles, dinosaurs, and birds.",
     "Skulls with two openings (or ancestors of that), and skin that made scales or feathers.",
     "The word 'reptile' is an everyday word. Birds are inside this branch, so if you want a tidy family tree, birds count as reptiles too.",
@@ -159,7 +159,7 @@
     "Most DNA evidence puts turtles close to archosaurs, but scientists still argue, and that's honest science: new evidence can change the tree.",
     ["Turtle fossils from ~220 million years ago, like Odontochelys, had a half-shell and teeth.", "Their shoulder blades are inside their ribs, unlike any other animal.", "Where turtles belong in the tree is still debated."]);
 
-  T('tortoise', 'turtle', 'Tortoise (Testudinidae)', 'Tortoise', 'Turtles', 0, 'living', 'Plants', 0.8, 100, 'Land: grasslands, deserts, islands',
+  T('tortoise', 'turtle', 'Tortoise (Testudinidae)', 'Tortoise', 'Turtles', 0, 'living', 'Plants', 0.3, 2, 'Land: grasslands, deserts, islands',
     "Tortoises are land-living turtles with high domed shells and stumpy elephant-like feet.",
     "A high domed shell and heavy legs for walking on land.",
     "Island tortoises show 'cousin species': each island's population changed a bit differently over time.",
@@ -229,7 +229,7 @@
     "The first dinosaurs were small to medium and ran on two legs. A hole in the hip socket is the big dinosaur clue.",
     "A hip socket with an open hole in it, which let the legs be held straight under the body.",
     "Early dinosaurs were not huge or rulers. They became dominant later, after other archosaurs died out in a mass extinction at the end of the Triassic.",
-    ["The earliest dinosaur fossils, from ~230 million years ago, were small.", "The two big dinosaur branches are named for their hips.", "Birds are part of the dinosaur family."]);
+    ["The earliest dinosaur fossils, from about 230 to 243 million years ago, were small.", "The two big dinosaur branches are named for their hips.", "Birds are part of the dinosaur family."]);
 
   T('ornithischian', 'dinosaur', 'Ornithischians', "'Bird-hipped' dinosaurs", 'Dinosaurs', 230, 'group', 'Mostly plants', 2, 100, 'Forests and plains',
     "The name means 'bird-hipped'. Funny twist: birds did NOT come from this branch. Birds are 'lizard-hipped'.",
@@ -241,7 +241,7 @@
     "Stegosaurus had two rows of big plates and a spiky tail. Its brain was only about the size of a lime or a small lemon.",
     "Big back plates and a tail with spikes called the thagomizer.",
     "Plates might have been for show or controlling temperature. Scientists are still debating this.",
-    ["Its tail spikes are called the thagomizer, a name born from a joke in a comic.", "Stegosaurus lived about 150 million years ago, closer to us in time than to the first dinosaurs.", "It lived about 80 million years before T. rex."]);
+    ["Its tail spikes are called the thagomizer, a name born from a joke in a comic.", "T. rex lived closer to us in time than to Stegosaurus. About 82 million years separate Stegosaurus from T. rex, but only about 66 million years separate T. rex from today.", "It lived about 80 million years before T. rex."]);
 
   T('triceratops', 'ornithischian', 'Triceratops', 'Three-horn', 'Dinosaurs', 68, 'species', 'Plants', 8, 6000, 'Late Cretaceous forests and plains',
     "Triceratops had three horns and a bony frill. It lived at the very end of the dinosaur age, alongside T. rex.",
@@ -307,7 +307,7 @@
     "Allosaurus was a top predator of the Jurassic, with a big head and sharp, blade-like teeth.",
     "A large skull with blade-like teeth, and strong arms with three clawed fingers.",
     "Big hunters and big prey go together in an arms race: bigger prey, bigger predators.",
-    ["Allosaurus lived 80 million years before T. rex.", "It may have hunted in a way like a hatchet, with its head.", "Its arms were stronger than a T. rex's."]);
+    ["Allosaurus lived 80 million years before T. rex.", "It may have hunted in a way like a hatchet, with its head.", "Its arms were longer than a T. rex's and had three big claws."]);
 
   T('tyrannosaur', 'theropod', 'Tyrannosaurs', 'Tyrannosaur family', 'Dinosaurs', 170, 'group', 'Meat', 4, 300, 'Northern lands',
     "The earliest tyrannosaurs were small, feathered, and fast. It was only late that they grew huge.",
@@ -352,7 +352,7 @@
     ["The line is blurry, and scientists still argue on where exactly 'bird' starts.", "Avialans had teeth and long tails at first.", "They lived with other feathered dinosaurs."]);
 
   T('archaeopteryx', 'avialan', 'Archaeopteryx', 'Famous first-bird fossil', 'Dinosaurs', 150, 'species', 'Insects and small animals', 0.5, 1, 'Late Jurassic islands of Europe',
-    "Archaeopteryx had wings with feathers, but also teeth, claws on its wings, and a long bony tail. A perfect in-between fossil.",
+    "Archaeopteryx had wings with feathers, but also teeth, claws on its wings, and a long bony tail. A famous in-between fossil.",
     "Wing feathers like a modern bird's, with a dinosaur's teeth, claws, and bony tail.",
     "Found in 1861, just two years after Darwin's big book, it was exactly the sort of fossil that evolution predicted.",
     ["It was found in Germany in limestone.", "Scientists still debate how well it flew.", "Newer fossils show it is one of many feathered dinosaurs."]);
@@ -373,7 +373,7 @@
     "Chickens come from jungle fowl in southeast Asia. People have bred them for thousands of years. A chicken is a living dinosaur.",
     "A strong beak, and scratching feet.",
     "Selective breeding (people choosing which chickens have chicks) shows how traits can change over generations.",
-    ["There are more chickens than any other bird, about 25 billion.", "Scientists found that chickens can grow teeth-like structures by tweaking genes in the lab, an echo of their toothed ancestors.", "Chicken legs and scaly feet show their dinosaur heritage."]);
+    ["There are more chickens than any other bird, more than 25 billion at any one time.", "Scientists found that chickens can grow teeth-like structures by tweaking genes in the lab, an echo of their toothed ancestors.", "Chicken legs and scaly feet show their dinosaur heritage."]);
 
   T('penguin', 'neornithine', 'Emperor penguin (Aptenodytes forsteri)', 'Penguin', 'Dinosaurs', 0, 'living', 'Fish, squid, krill', 1.1, 30, 'Antarctic ice and seas',
     "Penguins are birds that gave up flying in the air and fly through water instead. They use their wings as flippers.",
@@ -680,9 +680,8 @@
     { mya: 505, title: 'Pikaia swims', text: 'A small swimmer with a stiff rod down its back, an early relative of animals with backbones.', taxonId: 'pikaia' },
     { mya: 375, title: 'Tiktaalik', text: 'A fish with elbow-like fins and a neck, a snapshot of how limbs began.', taxonId: 'tiktaalik' },
     { mya: 365, title: 'Acanthostega', text: 'Four limbs with fingers, but still mostly living in water.', taxonId: 'acanthostega' },
-    { mya: 318, title: 'First amniotes', text: 'Small animals lay eggs that survive on dry land. Everything in this album traces back to them.', taxonId: 'amniote' },
-    { mya: 315, title: 'Synapsids split off', text: 'The mammal-side branch begins.', taxonId: 'synapsid' },
-    { mya: 310, title: 'Sauropsids split off', text: 'The scaly and feathery branch begins. It leads to lizards, turtles, crocs, dinosaurs, and birds.', taxonId: 'sauropsid' },
+    { mya: 318, title: 'First amniotes', text: 'Small animals lay eggs that survive on dry land. The oldest fossil is Hylonomus, about 318 million years old. The family soon splits into the mammal side and the reptile-and-bird side.', taxonId: 'amniote' },
+    { mya: 308, title: 'Earliest synapsid fossils', text: 'The mammal-side branch has already split off by now. The oldest fossils we have of it are about 308 million years old.', taxonId: 'synapsid' },
     { mya: 280, title: 'Dimetrodon', text: 'The sail-backed top predator of dry Permian lands. It is a synapsid, not a dinosaur.', taxonId: 'dimetrodon' },
     { mya: 252, title: 'The Permian extinction', text: 'The biggest mass extinction ever. Most species vanish. Archosaurs soon begin to spread.', taxonId: 'archosaur' },
     { mya: 250, title: 'Croc-line and bird-line split', text: 'Archosaurs divide into croc-line cousins and bird-line cousins.', taxonId: 'pseudosuchian' },
@@ -722,7 +721,7 @@
     { q: 'Which of these is a good idea about why sauropods got giant? (pick the careful one)', choices: ['Scientists have proven one single cause', 'Probably several things together: food, light bones, air sacs, many eggs, fast growth', 'Dinosaurs wanted to be big', 'Because they were old'], answer: 1, why: 'There are several strong ideas that work together, and some details are debated.', level: 3 },
     { q: 'What is a "common ancestor"?', choices: ['An animal that lives today', 'A shared ancestor of two or more living groups', 'The biggest animal', 'A fossil in a museum'], answer: 1, why: 'The last common ancestor is where two family lines meet when you trace them back.', level: 2 },
     { q: 'Island dwarfing means...', choices: ['Animals on islands sometimes become smaller over generations when food is scarce', 'Islands shrink animals instantly', 'Dwarfs sail to islands', 'Dinosaurs lived only on islands'], answer: 0, why: 'On small islands with little food, smaller individuals can survive better, so the average size falls.', level: 3 },
-    { q: 'What did Archaeopteryx have?', choices: ['Only feathers', 'Feathered wings plus teeth, claws, and a bony tail', 'Fur and milk', 'A shell'], answer: 1, why: 'It mixed bird and dinosaur features, a perfect in-between fossil, though many feathered dinosaurs are now known.', level: 2 },
+    { q: 'What did Archaeopteryx have?', choices: ['Only feathers', 'Feathered wings plus teeth, claws, and a bony tail', 'Fur and milk', 'A shell'], answer: 1, why: 'It mixed bird and dinosaur features, a famous in-between fossil, though many feathered dinosaurs are now known.', level: 2 },
     { q: 'Who is the most "advanced": a human or a crocodile?', choices: ['Human', 'Crocodile', 'Neither: both fit their lives and have evolved for the same time', 'The one with the biggest brain'], answer: 2, why: 'Evolution has no ladder and no goal. Each species fits its place.', level: 1 },
     { q: 'A mutation is...', choices: ['A random change in DNA that can add new variation', 'A plan by the animal', 'Always harmful', 'Something you get from the gym'], answer: 0, why: 'Mutations are random. Most do nothing, some harm, and a few help.', level: 3 }
   ];
