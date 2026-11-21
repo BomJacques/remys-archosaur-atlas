@@ -33,7 +33,7 @@
     });
     function draw() {
       var F = FOCUS[sel], on = {}; F.ids.forEach(function (i) { on[i] = 1; });
-      var s = '<svg viewBox="0 0 600 420" role="img" aria-label="A simple family tree with grandparents, parents, aunt, you, a sister and a cousin">';
+      var s = '<svg viewBox="0 0 600 436" role="img" aria-label="A simple family tree with grandparents, parents, aunt, you, a sister and a cousin">';
       s += '<g stroke="#b9a98a" stroke-width="3" fill="none" stroke-linecap="round">';
       LINKS.forEach(function (l) {
         var a = PEOPLE[l[0]], b = PEOPLE[l[1]], hot = on[l[0]] && on[l[1]];
