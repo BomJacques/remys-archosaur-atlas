@@ -52,3 +52,5 @@ button.bas-toggle { cursor: pointer; touch-action: manipulation; }
 .bas-dot { width: 14px; height: 14px; border-radius: 50%; flex: none; display: inline-block; }
 .bas-dot.on { background: #2e9b57; }
 .bas-dot.off { background: #8a8998; }
+.bas-svg-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.bas-svg-wrap svg { min-width: 760px; }

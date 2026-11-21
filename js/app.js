@@ -6,9 +6,10 @@
   var NAV = [
     { id: 'home', icon: '🏠', label: 'Home', short: 'Home' },
     { id: 'basics', icon: '🌳', label: 'Start here', short: 'Start' },
+    { id: 'journey', icon: '', label: 'Journeys', short: 'Journeys', hidden: true },
     { id: 'lineage', icon: '🧬', label: 'Lineage Explorer', short: 'Lineage' },
     { id: 'reptiles', icon: '🦎', label: 'Reptile types', short: 'Reptiles' },
-    { id: 'timeline', icon: '⏳', label: 'Timeline', short: 'Timeline' },
+    { id: 'timeline', icon: '⏳', label: 'Earth timeline', short: 'Earth' },
     { id: 'lab', icon: '🔬', label: 'How evolution works', short: 'Evolution' },
     { id: 'giants', icon: '🦕', label: 'Why so big?', short: 'Why big?' },
     { id: 'whatif', icon: '🔮', label: 'What if?', short: 'What if?' },
@@ -24,7 +25,7 @@
   function $(id) { return document.getElementById(id); }
 
   function buildNav() {
-    navEl.innerHTML = NAV.map(function (n) {
+    navEl.innerHTML = NAV.filter(function (n) { return !n.hidden; }).map(function (n) {
       return '<a class="nav-item" href="#/' + n.id + '" data-view="' + n.id + '" title="' + esc(n.label) + '">' +
         '<span class="nav-ico" aria-hidden="true">' + n.icon + '</span>' +
         '<span class="nav-lbl"><span class="l-long">' + esc(n.label) + '</span><span class="l-short">' + esc(n.short) + '</span></span></a>';

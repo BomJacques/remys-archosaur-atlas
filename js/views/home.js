@@ -4,11 +4,12 @@
   window.Views = window.Views || {};
   var LIVING = ['magpie', 'chicken', 'ostrich', 'penguin', 'hummingbird', 'crocodile', 'alligator', 'gecko', 'snake', 'tortoise', 'cat', 'human', 'tuatara'];
   var TILES = [
+    { id: 'journey', icon: '🧭', t: 'Journeys', d: 'Follow a chicken, magpie, snake or you back through time.', c: '#0ea5e9' },
     { id: 'basics', icon: '🌳', t: 'Start here', d: 'Family trees, generations, and what extinct really means.', c: '#16a34a' },
     { id: 'whatif', icon: '🔮', t: 'What if?', d: 'Fossils are mostly bones. What could the soft parts have looked like?', c: '#db2777' },
     { id: 'lineage', icon: '🧬', t: 'Lineage Explorer', d: 'Slide back through time and meet every ancestor.', c: '#ff6b3d' },
     { id: 'reptiles', icon: '🦎', t: 'Reptile types', d: 'Compare reptiles and play "Is it a dinosaur?"', c: '#2bb3a3' },
-    { id: 'timeline', icon: '⏳', t: 'Timeline', d: 'Travel through the ages of Earth.', c: '#7c5cff' },
+    { id: 'timeline', icon: '⏳', t: 'Earth timeline', d: 'See how Earth and life changed over 4.5 billion years.', c: '#7c5cff' },
     { id: 'lab', icon: '🔬', t: 'How evolution works', d: 'Run tiny experiments with birds and bugs.', c: '#3b82f6' },
     { id: 'giants', icon: '🦕', t: 'Why so big?', d: 'How did dinosaurs grow so huge?', c: '#f5a524' },
     { id: 'facts', icon: '💡', t: 'Did you know?', d: 'Surprising cousins: is a dugong closer to an elephant or a dolphin?', c: '#14b8a6' },

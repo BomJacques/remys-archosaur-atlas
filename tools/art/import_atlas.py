@@ -57,14 +57,31 @@ CW, CH = 1200, 900   # 4:3 canvas for animals
 MARGIN = 0.03
 
 
-def to_canvas(im):
+# animals that float, swim or fly stay centred; everything else is set ON the ground with a soft contact shadow
+FLOATING = {'mosasaur', 'pterosaur', 'quetzalcoatlus', 'microraptor', 'archaeopteryx', 'hummingbird', 'pikaia', 'luca'}
+
+
+def to_canvas(im, grounded=True):
+    from PIL import ImageDraw, ImageFilter
     im = im.convert('RGBA')
     bbox = im.getchannel('A').point(lambda v: 255 if v > 12 else 0).getbbox()
     im = im.crop(bbox)
-    s = min(CW * (1 - 2 * MARGIN) / im.width, CH * (1 - 2 * MARGIN) / im.height)
+    bottom = 0.10 if grounded else MARGIN
+    s = min(CW * (1 - 2 * MARGIN) / im.width, CH * (1 - MARGIN - bottom) / im.height)
     im = im.resize((max(1, round(im.width * s)), max(1, round(im.height * s))), Image.LANCZOS)
     c = Image.new('RGBA', (CW, CH), (0, 0, 0, 0))
-    c.alpha_composite(im, ((CW - im.width) // 2, (CH - im.height) // 2))
+    x = (CW - im.width) // 2
+    if grounded:
+        y = CH - round(CH * bottom) - im.height
+        sh = Image.new('L', (CW, CH), 0)
+        cy = y + im.height - 4
+        ImageDraw.Draw(sh).ellipse((CW / 2 - im.width * 0.42, cy - 10, CW / 2 + im.width * 0.42, cy + 22), fill=95)
+        sh = sh.filter(ImageFilter.GaussianBlur(10))
+        dark = Image.new('RGBA', (CW, CH), (28, 24, 16, 255)); dark.putalpha(sh)
+        c.alpha_composite(dark)
+    else:
+        y = (CH - im.height) // 2
+    c.alpha_composite(im, (x, y))
     return c
 
 
@@ -82,7 +99,7 @@ def main():
         if not os.path.exists(f):
             print('missing', f); continue
         dest = os.path.join(OUT, ids[0] + '.webp')
-        to_canvas(Image.open(f)).save(dest, 'WEBP', quality=84, method=6)
+        to_canvas(Image.open(f), ids[0] not in FLOATING).save(dest, 'WEBP', quality=84, method=6)
         for i in ids:
             reg[i] = svg_for('assets/art/%s.webp' % ids[0])
         print('%-24s -> %s  %d KB' % (stem, ','.join(ids), os.path.getsize(dest) // 1024))
