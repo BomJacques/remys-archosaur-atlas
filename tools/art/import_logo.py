@@ -7,8 +7,11 @@ from PIL import Image, ImageDraw, ImageFilter
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 src = sys.argv[1]
 im = Image.open(src).convert('RGBA')
-rgb = np.asarray(im.convert('RGB')).astype(int)
-mask = (rgb.min(axis=2) < 240) | (np.asarray(im.getchannel('A')) < 250) & (np.asarray(im.getchannel('A')) > 10)
+A = np.asarray(im.getchannel('A')).astype(int)
+if A.min() < 250:   # already transparent outside the circle: trust the alpha channel
+    mask = A > 10
+else:               # white background: everything that is not near-white
+    mask = np.asarray(im.convert('RGB')).astype(int).min(axis=2) < 240
 ys, xs = np.where(mask)
 x0, x1, y0, y1 = xs.min(), xs.max(), ys.min(), ys.max()
 side = max(x1 - x0, y1 - y0) + 1
