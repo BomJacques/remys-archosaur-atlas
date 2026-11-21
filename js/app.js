@@ -10,6 +10,7 @@
     { id: 'timeline', icon: '⏳', label: 'Timeline', short: 'Timeline' },
     { id: 'lab', icon: '🔬', label: 'How evolution works', short: 'Evolution' },
     { id: 'giants', icon: '🦕', label: 'Why so big?', short: 'Why big?' },
+    { id: 'facts', icon: '💡', label: 'Did you know?', short: 'Facts' },
     { id: 'ar', icon: '📱', label: 'Life-size dinos (AR)', short: 'AR' },
     { id: 'quiz', icon: '🎯', label: 'Quiz', short: 'Quiz' }
   ];

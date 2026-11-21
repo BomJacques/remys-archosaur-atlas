@@ -9,6 +9,8 @@
     { id: 'timeline', icon: '⏳', t: 'Timeline', d: 'Travel through the ages of Earth.', c: '#7c5cff' },
     { id: 'lab', icon: '🔬', t: 'How evolution works', d: 'Run tiny experiments with birds and bugs.', c: '#3b82f6' },
     { id: 'giants', icon: '🦕', t: 'Why so big?', d: 'How did dinosaurs grow so huge?', c: '#f5a524' },
+    { id: 'facts', icon: '💡', t: 'Did you know?', d: 'Surprising cousins: is a dugong closer to an elephant or a dolphin?', c: '#14b8a6' },
+    { id: 'ar', icon: '📱', t: 'Life-size dinos', d: 'See dinosaurs at real size with your camera.', c: '#8b5cf6' },
     { id: 'quiz', icon: '🎯', t: 'Quiz', d: 'Ten questions. Win a badge!', c: '#e5484d' }
   ];
 
@@ -19,7 +21,7 @@
       var ids = LIVING.filter(function (id) { return D.byId(id); });
       var animals = {};
       (D.animals || []).forEach(function (a) { animals[a.id] = a; });
-      var facts = (D.animals || []).map(function (a) { return a.funFact; }).filter(Boolean);
+      var facts = (D.animals || []).map(function (a) { return a.funFact; }).filter(Boolean).concat((window.FACTS || []).map(function (f) { return f.title + ' ' + f.text; }));
       var fi = Math.floor(Math.random() * Math.max(1, facts.length));
 
       el.innerHTML =

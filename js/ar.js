@@ -34,6 +34,7 @@
   ];
   var byId = {};
   MODELS.forEach(function (m) { byId[m.id] = m; });
+  window.ARCore = { BASE: BASE, esc: esc, loadViewer: function () { return loadViewer(); } };
 
   /* taxon id -> model id (drives the AR buttons on other pages) */
   window.AR_MODELS = {};
@@ -88,7 +89,9 @@
       '<p class="ar-size">📏 ' + esc(sizeLine(m)) + '</p>' +
       '<div class="ar-stage"><div class="ar-loading">Waking up the dinosaur…</div></div>' +
       '<div class="ar-clips" role="group" aria-label="Animations"></div>' +
-      '<button class="ar-go" type="button" hidden>📱 See it life-size in AR</button>' +
+      '<div class="ar-actions"><button class="ar-place-btn" type="button" hidden>📷 Tap to place in your room</button>' +
+      '<button class="ar-go ar-go-mini" type="button" hidden>📱 AR Quick Look: mini (fits the room)</button>' +
+      '<button class="ar-go ar-go-far" type="button" hidden>📱 AR Quick Look: life-size (step back!)</button></div>' +
       '<p class="ar-note" aria-live="polite"></p>' +
       '<p class="ar-blurb">' + esc(m.blurb) + '</p>' +
       '<p class="ar-credit">3D model “' + esc(c.title) + '” by <a href="' + esc(c.authorUrl) + '" target="_blank" rel="noopener">' + esc(c.author) + '</a> (<a href="' + esc(c.url) + '" target="_blank" rel="noopener">source</a>), ' +
@@ -102,7 +105,11 @@
     overlay.querySelector('.ar-close').focus({ preventScroll: true });
 
     var stage = overlay.querySelector('.ar-stage'), note = overlay.querySelector('.ar-note');
-    var go = overlay.querySelector('.ar-go'), clipsEl = overlay.querySelector('.ar-clips');
+    var goMini = overlay.querySelector('.ar-go-mini'), goFar = overlay.querySelector('.ar-go-far'), placeBtn = overlay.querySelector('.ar-place-btn'), clipsEl = overlay.querySelector('.ar-clips');
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia && typeof window.openPlace === 'function') {
+      placeBtn.hidden = false;
+      placeBtn.addEventListener('click', function () { var mm = m; close(); window.openPlace(mm); });
+    }
     loadViewer().then(function () {
       if (!overlay) return;
       var mv = document.createElement('model-viewer');
@@ -128,14 +135,22 @@
       });
       mv.addEventListener('load', function () {
         if (mv.canActivateAR) {
-          go.hidden = false;
-          note.textContent = 'Tip: in AR, find a big flat space and walk around it. Pinching does not resize it, so you see the true size!' +
-            (m.arClip ? ' (AR shows the calm “' + m.arClip + '” animation.)' : '');
+          goMini.hidden = false; goFar.hidden = false;
+          note.textContent = 'Tap to place puts the dinosaur on your camera view wherever you tap. AR Quick Look tracks the floor: “mini” is a 1:10 model, and “life-size” starts with the dinosaur stretching away from you, so step back and look around.';
+        } else if (!placeBtn.hidden) {
+          note.textContent = 'Tap to place uses your camera. Or spin the dinosaur right here with your finger or mouse.';
         } else {
           note.textContent = 'AR needs an iPad, iPhone or a recent Android phone. Here you can spin the dinosaur with your finger or mouse.';
         }
       });
-      go.addEventListener('click', function () { try { mv.activateAR(); } catch (e) { note.textContent = 'AR could not start on this device.'; } });
+      function launchAR(file, scale, fixed) {
+        mv.setAttribute('ios-src', BASE + file);
+        mv.setAttribute('ar-scale', fixed ? 'fixed' : 'auto');
+        mv.scale = scale;
+        try { mv.activateAR(); } catch (e) { note.textContent = 'AR could not start on this device.'; }
+      }
+      goMini.addEventListener('click', function () { launchAR(m.id + '-mini.usdz', '0.1 0.1 0.1', false); });
+      goFar.addEventListener('click', function () { launchAR(m.id + '-far.usdz', '1 1 1', true); });
       mv.addEventListener('error', function () { note.textContent = 'The 3D model could not load. Check your connection and try again.'; });
     }).catch(function () {
       stage.innerHTML = '<div class="ar-loading">Sorry, the 3D viewer could not load.</div>';

@@ -35,8 +35,12 @@
     "sizesKB": {
       "glb": 3434,
       "usdz": 3098,
-      "poster": 24
+      "poster": 24,
+      "usdzMini": 3079,
+      "usdzFar": 3131
     },
+    "usdzMini": "trex-mini.usdz",
+    "usdzFar": "trex-far.usdz",
     "credit": {
       "title": "Animated T-Rex Dinosaur Biting Attack Loop",
       "author": "LasquetiSpice",
@@ -83,8 +87,12 @@
     "sizesKB": {
       "glb": 3169,
       "usdz": 3193,
-      "poster": 14
+      "poster": 14,
+      "usdzMini": 3193,
+      "usdzFar": 3193
     },
+    "usdzMini": "pterosaur-mini.usdz",
+    "usdzFar": "pterosaur-far.usdz",
     "credit": {
       "title": "Animated Flying Pteradactal Dinosaur Loop",
       "author": "LasquetiSpice",
@@ -121,8 +129,12 @@
     "sizesKB": {
       "glb": 3782,
       "usdz": 4110,
-      "poster": 32
+      "poster": 32,
+      "usdzMini": 4110,
+      "usdzFar": 4110
     },
+    "usdzMini": "ankylosaurus-mini.usdz",
+    "usdzFar": "ankylosaurus-far.usdz",
     "credit": {
       "title": "Ankylosaurus Updated",
       "author": "kenchoo",
@@ -179,8 +191,12 @@
     "sizesKB": {
       "glb": 4471,
       "usdz": 4164,
-      "poster": 19
+      "poster": 19,
+      "usdzMini": 4101,
+      "usdzFar": 4164
     },
+    "usdzMini": "diplodocus-mini.usdz",
+    "usdzFar": "diplodocus-far.usdz",
     "credit": {
       "title": "Dinosaur",
       "author": "mortalityrexotable",
@@ -217,8 +233,12 @@
     "sizesKB": {
       "glb": 3457,
       "usdz": 3645,
-      "poster": 28
+      "poster": 28,
+      "usdzMini": 3644,
+      "usdzFar": 3645
     },
+    "usdzMini": "carnotaurus-mini.usdz",
+    "usdzFar": "carnotaurus-far.usdz",
     "credit": {
       "title": "primal carnage carnotaurus",
       "author": "seth the yutyrannus",

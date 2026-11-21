@@ -28,11 +28,18 @@ for mid in ORDER:
         clips.append(dict(name=name, frames=[a, b], seconds=round((b - a) / 24, 2),
                           source='custom' if (name == 'Idle' and mid in CUSTOM_IDLE) else 'original'))
     key, val = TARGET[mid]
+    extra = {}
+    for v, name in (('mini', 'usdzMini'), ('far', 'usdzFar')):
+        fp = os.path.join(scratch, f'{mid}_{v}_stats.json')
+        if os.path.exists(fp):
+            extra[name] = (f'{mid}-{v}.usdz', json.load(open(fp))['usdz_kb'])
     models.append({
         'id': mid, 'glb': f'{mid}.glb', 'usdz': f'{mid}.usdz', 'poster': f'{mid}-poster.jpg',
         key: val, 'clips': [c['name'] for c in clips], 'clipInfo': clips,
         'defaultClip': DEFAULT[mid], 'usdzClip': 'Idle', 'tris': st['tris'],
-        'sizesKB': {'glb': st['glb_kb'], 'usdz': st['usdz_kb'], 'poster': st['poster_kb']},
+        'sizesKB': dict({'glb': st['glb_kb'], 'usdz': st['usdz_kb'], 'poster': st['poster_kb']},
+                        **{k: v[1] for k, v in extra.items()}),
+        **{k: v[0] for k, v in extra.items()},
         'credit': {'title': title, 'author': author, 'authorUrl': author_url, 'url': src, 'license': 'CC BY 4.0',
                    'licenseUrl': 'http://creativecommons.org/licenses/by/4.0/', 'text': text}})
     credits.append((title, text))

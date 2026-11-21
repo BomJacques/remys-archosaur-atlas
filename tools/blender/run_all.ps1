@@ -15,3 +15,10 @@ foreach ($id in 'trex','pterosaur','ankylosaurus','diplodocus','carnotaurus') {
   python -I "$here\glb_skin_check.py" "$Out\$id.glb"     # independent CPU-skinning check of the GLB animation
 }
 python -I "$here\make_manifest.py" $ModelsRoot $Out $Scratch
+# AR variants: 1:10 'mini' and life-size 'far' (origin at the nose so the animal lies behind the placement point)
+foreach ($id in 'trex','pterosaur','ankylosaurus','diplodocus','carnotaurus') {
+  foreach ($v in 'mini','far') {
+    & $Blender -b --factory-startup --python "$here\dino_normalize.py" -- --id $id --variant $v --models-root $ModelsRoot --out $Out --scratch $Scratch
+  }
+}
+python -I "$here\make_manifest.py" $ModelsRoot $Out $Scratch

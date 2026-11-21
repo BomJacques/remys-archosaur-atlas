@@ -69,14 +69,37 @@
      SIM 1: SEED BEAKS
      ==================================================================== */
   var BIRD_COL = '#7fb6e8';
+  /* A small finch. t = beak thickness 0..1: the beak gets deeper AND longer as t rises.
+     ghost (optional) = a dashed outline of an earlier beak, drawn behind, to show the change. */
+  function beakPaths(tt) {
+    var bx = 116, by = 45, dd = 6 + 20 * tt, LL = 12 + 14 * tt;
+    return {
+      upper: 'M' + bx + ',' + (by - dd / 2) + ' Q' + (bx + LL * 0.55) + ',' + (by - dd / 2 - 1) + ' ' + (bx + LL) + ',' + (by + dd * 0.08) + ' L' + bx + ',' + by + ' Z',
+      lower: 'M' + bx + ',' + by + ' L' + (bx + LL * 0.92) + ',' + (by + dd * 0.1) + ' Q' + (bx + LL * 0.5) + ',' + (by + dd / 2) + ' ' + bx + ',' + (by + dd / 2) + ' Z'
+    };
+  }
+  function finchInner(t, ghost) {
+    var b = beakPaths(t), s = '';
+    if (ghost != null) { var g = beakPaths(ghost); s += '<path d="' + g.upper + ' ' + g.lower + '" fill="none" stroke="#555" stroke-width="1.6" stroke-dasharray="3 2.5" stroke-linejoin="round"/>'; }
+    s += '<polygon points="28,52 2,42 7,66 30,70" fill="#6aa3d6"/>' +
+      '<line x1="58" y1="84" x2="56" y2="95" stroke="#c97d1c" stroke-width="3" stroke-linecap="round"/><line x1="74" y1="84" x2="76" y2="95" stroke="#c97d1c" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M50,95 h12 M70,95 h12" stroke="#c97d1c" stroke-width="3" stroke-linecap="round"/>' +
+      '<ellipse cx="62" cy="60" rx="38" ry="27" fill="' + BIRD_COL + '"/>' +
+      '<ellipse cx="72" cy="73" rx="22" ry="11" fill="#e9f3fb"/>' +
+      '<ellipse cx="55" cy="58" rx="25" ry="15" transform="rotate(-12 55 58)" fill="#5c97cf"/>' +
+      '<path d="M36,60 q18,6 36,-4" stroke="#8fc0ec" stroke-width="2" fill="none" stroke-linecap="round" opacity=".8"/>' +
+      '<circle cx="96" cy="42" r="21" fill="' + BIRD_COL + '"/>' +
+      '<path d="M82,32 q12,-10 26,-2" stroke="#9fcbf0" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".8"/>' +
+      '<path d="' + b.lower + '" fill="#e08b1f" stroke="#c0701a" stroke-width="1.2" stroke-linejoin="round"/>' +
+      '<path d="' + b.upper + '" fill="#f2a43a" stroke="#d9831a" stroke-width="1.2" stroke-linejoin="round"/>' +
+      '<circle cx="103" cy="37" r="4.4" fill="#fff"/><circle cx="104.3" cy="37" r="2.5" fill="#1d2433"/><circle cx="105.1" cy="36.1" r="0.9" fill="#fff"/>';
+    return s;
+  }
   function beakSvg(t) {
-    var d = 4 + 13 * t, len = 9 + 7 * t;
-    return '<svg viewBox="0 0 56 44" aria-hidden="true" focusable="false">' +
-      '<ellipse cx="22" cy="24" rx="17" ry="15" fill="' + BIRD_COL + '"/>' +
-      '<ellipse cx="20" cy="31" rx="10" ry="7" fill="#e9f3fb"/>' +
-      '<polygon points="36,' + (22 - d / 2) + ' ' + (36 + len) + ',' + (23 + d * 0.15) + ' 36,' + (22 + d / 2) +
-      '" fill="#f2a43a" stroke="#d9831a" stroke-width="1.2" stroke-linejoin="round"/>' +
-      '<circle cx="28" cy="18" r="3.6" fill="#fff"/><circle cx="29" cy="18" r="2" fill="#222"/></svg>';
+    return '<svg viewBox="0 0 150 100" aria-hidden="true" focusable="false">' + finchInner(t) + '</svg>';
+  }
+  function finchSvg(t, ghost) {
+    return '<svg viewBox="0 0 150 100" role="img" aria-label="A finch with a beak ' + f1(6 + 8 * t) + ' millimetres deep">' + finchInner(t, ghost) + '</svg>';
   }
 
   function seedBeaks(host, ctx) {
@@ -128,7 +151,31 @@
     [bNext, b10, b30, bReset].forEach(function (b) { actions.appendChild(b); });
     controls.appendChild(weatherRow); controls.appendChild(actions);
     var why = mk('div', 'lab-explain'); why.setAttribute('aria-live', 'polite');
-    [seedsEl, flock, stats, charts, controls, why].forEach(function (x) { root.appendChild(x); });
+    var portraits = mk('div', 'lab-portraits'); portraits.setAttribute('aria-live', 'polite');
+    var shown = null, raf = 0;
+    function renderPortraits(animate) {
+      var t0 = means[0], target = mean(pop);
+      function draw(v) {
+        var diff = mm(v) - mm(t0);
+        portraits.innerHTML =
+          '<div class="lab-portrait"><div class="lab-portrait-tag">Generation 0</div>' + finchSvg(t0) +
+          '<div class="lab-portrait-cap">average beak <b>' + f1(mm(t0)) + ' mm</b></div></div>' +
+          '<div class="lab-portrait-arrow" aria-hidden="true">➜</div>' +
+          '<div class="lab-portrait lab-portrait-now"><div class="lab-portrait-tag">Generation ' + gen + '</div>' + finchSvg(v, gen > 0 ? t0 : null) +
+          '<div class="lab-portrait-cap">average beak <b>' + f1(mm(v)) + ' mm</b>' + (gen > 0 ? ' <span class="' + (diff >= 0 ? 'lab-up' : 'lab-down') + '">(' + (diff >= 0 ? '+' : '−') + f1(Math.abs(diff)) + ')</span>' : '') + '</div>' +
+          (gen > 0 ? '<div class="lab-portrait-note">dashed line = the old beak</div>' : '') + '</div>';
+      }
+      cancelAnimationFrame(raf);
+      if (shown == null || !animate || reduced()) { shown = target; draw(target); return; }
+      var from = shown, st = performance.now();
+      (function tick(now) {
+        if (!alive) return;
+        var k = Math.min(1, (now - st) / 700); k = k * k * (3 - 2 * k);
+        shown = from + (target - from) * k; draw(shown);
+        if (k < 1) raf = requestAnimationFrame(tick);
+      })(st);
+    }
+    [seedsEl, portraits, flock, stats, charts, controls, why].forEach(function (x) { root.appendChild(x); });
     host.appendChild(root);
 
     function clearT() { timers.forEach(clearTimeout); timers = []; }
@@ -172,16 +219,27 @@
       histEl.innerHTML = '<div class="lab-chart-title">How many birds have each beak <span>(dashed = generation 0)</span></div>' + s;
 
       var maxG = Math.max(30, gen), TW = 280, TH = 100, ty = function (v) { return 8 + (1 - v) * TH; };
-      s = '<svg viewBox="0 0 300 130" role="img" aria-label="Average beak thickness over generations"><rect x="10" y="8" width="280" height="' + TH + '" fill="#fff" rx="6"/>';
+      s = '<svg viewBox="0 0 300 176" role="img" aria-label="Average beak thickness over generations, with a finch drawn at several generations"><rect x="10" y="8" width="280" height="' + TH + '" fill="#fff" rx="6"/>';
       var gw = TW / maxG;
       for (i = 0; i < log.length; i++) s += '<rect x="' + (10 + i * gw) + '" y="8" width="' + gw + '" height="' + TH + '" fill="' + YEARS[log[i]].col + '"/>';
       var pts = means.map(function (m, k) { return (10 + k * gw).toFixed(1) + ',' + ty(m).toFixed(1); }).join(' ');
       s += '<polyline points="' + pts + '" fill="none" stroke="#d6452b" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>';
-      s += '<text x="10" y="126" font-size="10" fill="#555">generation 0</text><text x="290" y="126" font-size="10" text-anchor="end" fill="#555">' + maxG + '</text></svg>';
+      /* little finches along the timeline: the beak you see is that generation's average */
+      var stepG = Math.max(1, Math.ceil(maxG / 4)), marks = [], g;
+      for (g = 0; g <= gen; g += stepG) marks.push(g);
+      if (marks[marks.length - 1] !== gen) { if (gen - marks[marks.length - 1] < stepG * 0.9 && marks.length > 1) marks.pop(); marks.push(gen); }
+      marks.forEach(function (g) {
+        var px = 10 + g * gw, py = ty(means[g]), cx = Math.max(34, Math.min(266, px));
+        s += '<line x1="' + px.toFixed(1) + '" y1="' + py.toFixed(1) + '" x2="' + cx.toFixed(1) + '" y2="113" stroke="#999" stroke-dasharray="2 3"/>' +
+          '<circle cx="' + px.toFixed(1) + '" cy="' + py.toFixed(1) + '" r="4" fill="#d6452b" stroke="#fff" stroke-width="1.5"/>' +
+          '<svg x="' + (cx - 27).toFixed(1) + '" y="114" width="54" height="36" viewBox="0 0 150 100">' + finchInner(means[g]) + '</svg>' +
+          '<text x="' + cx.toFixed(1) + '" y="166" font-size="10" text-anchor="middle" fill="#555">gen ' + g + '</text>';
+      });
+      s += '</svg>';
       trendEl.innerHTML = '<div class="lab-chart-title">Average beak over time <span>(bands = weather)</span></div>' + s;
       stats.innerHTML = '<div><b>' + gen + '</b><span>generation</span></div><div><b>' + f1(mm(mean(pop))) + ' mm</b><span>average beak depth</span></div><div><b>' + f1(mm(means[0])) + ' mm</b><span>where we started</span></div>';
     }
-    function renderAll() { renderFlock(); renderCharts(); updateBtns(); explain(); }
+    function renderAll() { renderFlock(); renderPortraits(true); renderCharts(); updateBtns(); explain(); }
     function updateBtns() { [bNext, b10, b30, bReset].forEach(function (b) { b.disabled = busy; }); }
 
     function step(animate) {
@@ -226,7 +284,7 @@
       why.innerHTML = s;
     }
     syncMode(); drawSeeds(); renderAll();
-    return function () { alive = false; clearT(); };
+    return function () { alive = false; clearT(); cancelAnimationFrame(raf); };
   }
 
   /* ====================================================================

@@ -613,6 +613,8 @@ def main():
     ap.add_argument('--models-root', required=True)
     ap.add_argument('--out', required=True)
     ap.add_argument('--scratch', required=True)
+    ap.add_argument('--variant', choices=['mini', 'far'], default=None,
+                    help='only write <id>-mini.usdz (1:10 scale) or <id>-far.usdz (origin moved to the nose, body behind it)')
     ap.add_argument('--yaw', type=float, default=None, help='override the configured yaw (debug)')
     args = ap.parse_args(argv)
     mid = args.id
@@ -695,6 +697,32 @@ def main():
         stats['clips'][a.name] = clip_stats(arm, meshes, a)
     stats['tris'] = L.tri_count(meshes)
     stats['final_ext'] = {}
+    if args.variant:
+        act = bpy.data.actions[cfg['usdz_clip']]
+        if args.variant == 'mini':
+            k = 0.1
+            G = Matrix.Scale(k, 4)
+        else:   # far: origin at the front-most point (Blender -Y == USD +Z), body extends toward USD -Z
+            k = 1.0
+            ymin = min(P[:, 1].min() for P in sample_clip(arm, meshes, act, 48))
+            G = Matrix.Translation((0, -ymin, 0))
+            stats['far_shift_y_m'] = float(-ymin)
+        bake_transform(arm, meshes, G, k, list(bpy.data.actions))
+        vpath = os.path.join(args.out, f"{mid}-{args.variant}.usdz")
+        if os.path.exists(vpath):
+            os.remove(vpath)
+        export_usdz(arm, meshes, act, vpath)
+        pts = sample_clip(arm, meshes, act, 48)
+        Pall = np.vstack(pts)
+        stats['variant'] = args.variant
+        stats['variant_bounds_min'] = [float(x) for x in Pall.min(0)]
+        stats['variant_bounds_max'] = [float(x) for x in Pall.max(0)]
+        stats['usdz_validation'] = validate_usdz(vpath, cfg)
+        stats['usdz_kb'] = round(os.path.getsize(vpath) / 1024)
+        with open(os.path.join(args.scratch, f"{mid}_{args.variant}_stats.json"), 'w') as fh:
+            json.dump(stats, fh, indent=1, default=float)
+        log("DONE variant", mid, args.variant, stats['usdz_kb'], "KB", stats['variant_bounds_min'], stats['variant_bounds_max'])
+        return
     # --- poster (before exports mutate selection etc.) ---
     poster = os.path.join(args.out, f"{mid}-poster.jpg")
     render_poster(arm, meshes, cfg, poster, scratch, mid)
