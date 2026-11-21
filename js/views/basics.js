@@ -51,7 +51,7 @@
       });
       s += '</g>';
       Object.keys(PEOPLE).forEach(function (k) {
-        var p = PEOPLE[k], hot = on[k], im = p.img && FAM[p.img];
+        var p = PEOPLE[k], hot = on[k], im = p.img && (FAM[p.img] || (p.img === 'aunt' ? { src: 'assets/art/family/aunt.svg' } : null));
         s += '<g class="bas-person' + (hot ? ' hot' : '') + '"' + (hot ? '' : ' opacity="' + (Object.keys(on).length ? '.78' : '1') + '"') + '>';
         s += '<circle cx="' + p.x + '" cy="' + p.y + '" r="' + (R + 4) + '" fill="' + (hot ? '#fff1d6' : '#fffdf8') + '" stroke="' + (hot ? '#ff6b3d' : '#d9cfb8') + '" stroke-width="' + (hot ? 6 : 3) + '"/>';
         if (im) {

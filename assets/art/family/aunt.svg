@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 340" width="340" height="340">
+<defs>
+  <linearGradient id="skin" x1="0" y1="0" x2="1" y2="0.4"><stop offset="0" stop-color="#e8b894"/><stop offset=".55" stop-color="#dba07a"/><stop offset="1" stop-color="#c58560"/></linearGradient>
+  <linearGradient id="neck" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b9805c"/><stop offset="1" stop-color="#d9a07c"/></linearGradient>
+  <linearGradient id="shirt" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#52807a"/><stop offset="1" stop-color="#34595a"/></linearGradient>
+  <linearGradient id="hair" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4a372d"/><stop offset="1" stop-color="#1f1815"/></linearGradient>
+  <radialGradient id="lens" cx=".3" cy=".25" r=".9"><stop offset="0" stop-color="#ffffff" stop-opacity=".55"/><stop offset=".5" stop-color="#cfe3ee" stop-opacity=".18"/><stop offset="1" stop-color="#9ab" stop-opacity=".1"/></radialGradient>
+  <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="5"/></filter>
+</defs>
+<!-- shoulders and shirt -->
+<path d="M18,340 C28,284 96,258 170,258 C244,258 312,284 322,340 Z" fill="url(#shirt)"/>
+<path d="M120,262 C136,290 152,300 170,304 C188,300 204,290 220,262 C204,276 186,282 170,282 C154,282 136,276 120,262 Z" fill="#26413f" opacity=".85"/>
+<path d="M60,300 C90,280 120,276 140,284" stroke="#6f9a93" stroke-width="3" fill="none" opacity=".5" stroke-linecap="round"/>
+<path d="M282,304 C252,282 226,278 204,286" stroke="#25403f" stroke-width="3" fill="none" opacity=".5" stroke-linecap="round"/>
+<!-- neck -->
+<path d="M140,214 L140,272 C150,288 190,288 200,272 L200,214 Z" fill="url(#neck)"/>
+<path d="M140,236 C160,262 190,262 200,236 L200,252 C186,272 154,272 140,252 Z" fill="#8d5a3f" opacity=".35"/>
+<g transform="rotate(-4 170 160)">
+<!-- hair behind -->
+<g fill="url(#hair)">
+  <circle cx="98" cy="92" r="17"/><circle cx="118" cy="66" r="19"/><circle cx="148" cy="52" r="20"/><circle cx="182" cy="48" r="21"/><circle cx="214" cy="58" r="19"/><circle cx="240" cy="82" r="18"/><circle cx="252" cy="116" r="15"/><circle cx="86" cy="124" r="14"/>
+  <circle cx="90" cy="152" r="12"/><circle cx="256" cy="148" r="12"/>
+</g>
+
+<path d="M92,160 C76,84 120,40 172,42 C228,40 264,84 248,160 C254,126 240,98 214,90 L124,92 C102,104 94,128 92,160 Z" fill="url(#hair)"/>
+<!-- ears -->
+<ellipse cx="96" cy="166" rx="12" ry="19" fill="#d09470"/><ellipse cx="244" cy="166" rx="12" ry="19" fill="#c18660"/>
+<!-- head -->
+<path d="M100,150 C100,92 130,66 170,66 C210,66 240,92 240,150 C240,204 214,246 170,248 C126,246 100,204 100,150 Z" fill="url(#skin)"/>
+<!-- cheek and jaw shading -->
+<path d="M200,110 C232,126 238,190 204,236 C226,214 240,178 238,146 C236,126 222,110 200,102 Z" fill="#a8683f" opacity=".28"/>
+<ellipse cx="128" cy="186" rx="20" ry="12" fill="#e08a78" opacity=".22" filter="url(#soft)"/>
+<ellipse cx="212" cy="188" rx="20" ry="12" fill="#d77a68" opacity=".22" filter="url(#soft)"/>
+<!-- forehead lines -->
+<path d="M132,100 C154,94 186,94 208,100" stroke="#b97d58" stroke-width="2.5" fill="none" opacity=".4" stroke-linecap="round"/>
+<path d="M138,110 C156,105 184,105 202,110" stroke="#b97d58" stroke-width="2" fill="none" opacity=".3" stroke-linecap="round"/>
+<!-- fringe / front hair -->
+<path d="M100,120 C98,78 134,54 174,56 C216,56 244,84 240,126 C232,104 220,92 200,90 C186,106 160,100 140,92 C122,98 108,108 100,120 Z" fill="url(#hair)"/>
+<path d="M118,88 C140,70 176,66 206,76" stroke="#6b5444" stroke-width="3" fill="none" opacity=".6" stroke-linecap="round"/>
+<path d="M132,100 C156,84 190,82 220,96" stroke="#6b5444" stroke-width="2.5" fill="none" opacity=".45" stroke-linecap="round"/>
+<path d="M120,76 C132,64 150,60 164,62 M176,60 C192,58 208,64 220,74 M104,100 C108,86 116,78 126,74" stroke="#7a604d" stroke-width="3" fill="none" opacity=".55" stroke-linecap="round"/>
+<!-- side hair curls -->
+<path d="M100,118 C88,140 88,176 102,200 C98,176 100,150 110,126 Z" fill="url(#hair)"/>
+<path d="M240,118 C254,140 254,176 240,196 C244,172 242,148 232,126 Z" fill="url(#hair)"/>
+<!-- eyebrows -->
+<path d="M110,122 C124,112 146,110 160,116" stroke="#2b211c" stroke-width="7" fill="none" stroke-linecap="round"/>
+<path d="M180,114 C196,108 218,110 230,121" stroke="#2b211c" stroke-width="7" fill="none" stroke-linecap="round"/>
+<!-- eyes -->
+<g>
+  <path d="M116,148 C124,138 148,138 156,148 C148,156 124,156 116,148 Z" fill="#f6efe6"/>
+  <circle cx="138" cy="148" r="7.5" fill="#6b3f26"/><circle cx="138" cy="148" r="3.6" fill="#1a110c"/><circle cx="141" cy="145.5" r="1.8" fill="#fff"/>
+  <path d="M114,148 C124,134 150,134 158,148" stroke="#3a2a22" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M184,148 C192,138 216,138 224,148 C216,156 192,156 184,148 Z" fill="#f6efe6"/>
+  <circle cx="206" cy="148" r="7.5" fill="#6b3f26"/><circle cx="206" cy="148" r="3.6" fill="#1a110c"/><circle cx="209" cy="145.5" r="1.8" fill="#fff"/>
+  <path d="M182,148 C192,134 218,134 226,148" stroke="#3a2a22" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M118,158 C130,164 146,164 154,158 M186,158 C198,164 214,164 222,158" stroke="#b97d58" stroke-width="2" fill="none" opacity=".5" stroke-linecap="round"/>
+</g>
+<!-- glasses -->
+<g fill="none" stroke="#17120f" stroke-width="7" stroke-linejoin="round" stroke-linecap="round">
+  <rect x="108" y="129" width="54" height="41" rx="10"/>
+  <rect x="178" y="129" width="54" height="41" rx="10"/>
+  <path d="M162,140 C166,136 174,136 178,140"/>
+  <path d="M108,140 L98,146 M232,140 L242,146"/>
+</g>
+<rect x="111" y="132" width="48" height="35" rx="8" fill="url(#lens)"/>
+<rect x="181" y="132" width="48" height="35" rx="8" fill="url(#lens)"/>
+<path d="M116,140 L128,136 M186,140 L198,136" stroke="#fff" stroke-width="3" opacity=".6" stroke-linecap="round"/>
+<!-- nose -->
+<path d="M170,150 C166,170 160,184 158,192 C166,198 176,198 184,192 C182,184 176,170 170,150 Z" fill="#c98f6b" opacity=".35"/>
+<path d="M159,194 C162,200 170,201 172,196 M168,196 C172,201 180,200 183,194" stroke="#8d5a3f" stroke-width="3" fill="none" opacity=".7" stroke-linecap="round"/>
+<path d="M176,156 C180,172 184,184 186,190" stroke="#e8b894" stroke-width="3" fill="none" opacity=".6" stroke-linecap="round"/>
+<!-- moustache stubble, goatee and stubble -->
+<path d="M134,206 C150,198 190,198 206,206 C190,206 150,206 134,206 Z" fill="#2b211c" opacity=".55"/>
+<path d="M150,216 C160,226 182,226 192,214 C198,226 196,240 184,248 C172,254 158,252 150,240 C144,232 144,222 150,216 Z" fill="#241b17" opacity=".92"/>
+<g fill="#2b211c" opacity=".3">
+  <circle cx="122" cy="206" r="1.6"/><circle cx="130" cy="214" r="1.6"/><circle cx="126" cy="224" r="1.6"/><circle cx="136" cy="230" r="1.6"/><circle cx="118" cy="216" r="1.6"/><circle cx="144" cy="238" r="1.6"/>
+  <circle cx="218" cy="206" r="1.6"/><circle cx="210" cy="214" r="1.6"/><circle cx="214" cy="224" r="1.6"/><circle cx="204" cy="231" r="1.6"/><circle cx="222" cy="216" r="1.6"/><circle cx="196" cy="240" r="1.6"/>
+  <circle cx="112" cy="196" r="1.6"/><circle cx="228" cy="196" r="1.6"/><circle cx="140" cy="222" r="1.6"/><circle cx="200" cy="222" r="1.6"/>
+</g>
+<!-- mouth: a slight smirk, lifted on one side -->
+<path d="M146,210 C160,216 184,214 204,204" stroke="#6f3a32" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+<path d="M204,204 C208,203 210,201 211,198" stroke="#6f3a32" stroke-width="3" fill="none" stroke-linecap="round"/>
+<path d="M150,214 C162,224 186,222 202,210 C192,216 164,218 150,214 Z" fill="#b66a5a" opacity=".5"/>
+<path d="M118,184 C122,194 126,202 134,208 M222,184 C218,194 214,202 206,204" stroke="#b97d58" stroke-width="2.4" fill="none" opacity=".45" stroke-linecap="round"/>
+</g>
+</svg>
