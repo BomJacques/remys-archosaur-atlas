@@ -12,7 +12,7 @@
     ggm4: { img: 'ggm4', n: 'Great-grandma', x: X0 + 784, y: 66 }, ggf4: { img: 'ggf4', n: 'Great-grandpa', x: X0 + 896, y: 66 },
     gm1: { img: 'gm1', n: 'Grandma', x: X0 + 120, y: 224 }, gf1: { img: 'gf1', n: 'Grandpa', x: X0 + 360, y: 224 },
     gm2: { img: 'gm2', n: 'Grandma', x: X0 + 600, y: 224 }, gf2: { img: 'gf2', n: 'Grandpa', x: X0 + 840, y: 224 },
-    mum: { img: 'mum', n: 'Mum', x: X0 + 190, y: 382 }, aunt: { img: null, n: 'Aunt or uncle', note: '(not pictured)', x: X0 + 300, y: 382 },
+    mum: { img: 'mum', n: 'Mum', x: X0 + 190, y: 382 }, aunt: { img: 'aunt', n: 'Aunt or uncle', note: '', x: X0 + 300, y: 382 },
     dad: { img: 'dad', n: 'Dad', x: X0 + 720, y: 382 },
     you: { img: 'you', n: 'You', x: X0 + 405, y: 540 }, sib: { img: 'sibling', n: 'Sibling', x: X0 + 505, y: 540 }, cousin: { img: 'cousin', n: 'Cousin', x: X0 + 300, y: 540 }
   };
