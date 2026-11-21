@@ -5,11 +5,13 @@
   var D = window.DATA;
   var NAV = [
     { id: 'home', icon: '🏠', label: 'Home', short: 'Home' },
+    { id: 'basics', icon: '🌳', label: 'Start here', short: 'Start' },
     { id: 'lineage', icon: '🧬', label: 'Lineage Explorer', short: 'Lineage' },
     { id: 'reptiles', icon: '🦎', label: 'Reptile types', short: 'Reptiles' },
     { id: 'timeline', icon: '⏳', label: 'Timeline', short: 'Timeline' },
     { id: 'lab', icon: '🔬', label: 'How evolution works', short: 'Evolution' },
     { id: 'giants', icon: '🦕', label: 'Why so big?', short: 'Why big?' },
+    { id: 'whatif', icon: '🔮', label: 'What if?', short: 'What if?' },
     { id: 'facts', icon: '💡', label: 'Did you know?', short: 'Facts' },
     { id: 'ar', icon: '📱', label: 'Life-size dinos (AR)', short: 'AR' },
     { id: 'quiz', icon: '🎯', label: 'Quiz', short: 'Quiz' }

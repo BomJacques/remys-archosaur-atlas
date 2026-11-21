@@ -4,6 +4,8 @@
   window.Views = window.Views || {};
   var LIVING = ['magpie', 'chicken', 'ostrich', 'penguin', 'hummingbird', 'crocodile', 'alligator', 'gecko', 'snake', 'tortoise', 'cat', 'human', 'tuatara'];
   var TILES = [
+    { id: 'basics', icon: '🌳', t: 'Start here', d: 'Family trees, generations, and what extinct really means.', c: '#16a34a' },
+    { id: 'whatif', icon: '🔮', t: 'What if?', d: 'Fossils are mostly bones. What could the soft parts have looked like?', c: '#db2777' },
     { id: 'lineage', icon: '🧬', t: 'Lineage Explorer', d: 'Slide back through time and meet every ancestor.', c: '#ff6b3d' },
     { id: 'reptiles', icon: '🦎', t: 'Reptile types', d: 'Compare reptiles and play "Is it a dinosaur?"', c: '#2bb3a3' },
     { id: 'timeline', icon: '⏳', t: 'Timeline', d: 'Travel through the ages of Earth.', c: '#7c5cff' },
