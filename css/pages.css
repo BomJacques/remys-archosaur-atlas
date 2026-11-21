@@ -54,3 +54,9 @@ button.bas-toggle { cursor: pointer; touch-action: manipulation; }
 .bas-dot.off { background: #8a8998; }
 .bas-svg-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .bas-svg-wrap svg { min-width: 760px; }
+
+/* pronunciations */
+.pron { display: inline-flex; align-items: center; gap: 8px; margin: 2px 0 4px; vertical-align: middle; }
+.pron-t { font-weight: 800; font-size: 16px; letter-spacing: .01em; color: #3b4b8f; background: #eef2ff; border-radius: 10px; padding: 2px 10px; }
+.pron-say { min-height: 36px; padding: 2px 12px; border-radius: 999px; border: 2px solid #c9d2f2; background: #fff; color: #3b4b8f; font: inherit; font-weight: 800; font-size: 14px; cursor: pointer; touch-action: manipulation; }
+.pron-say:active { transform: scale(.96); }

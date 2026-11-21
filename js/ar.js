@@ -85,7 +85,7 @@
     overlay.innerHTML =
       '<div class="ar-sheet">' +
       '<button class="ar-close" aria-label="Close" type="button">✕</button>' +
-      '<h2 class="ar-title">' + esc(m.name) + '</h2>' +
+      '<h2 class="ar-title">' + esc(m.name) + '</h2>' + (UI && UI.pronHtml ? UI.pronHtml(m.id) : '') +
       '<p class="ar-size">📏 ' + esc(sizeLine(m)) + '</p>' +
       '<div class="ar-stage"><div class="ar-loading">Waking up the dinosaur…</div></div>' +
       '<div class="ar-clips" role="group" aria-label="Animations"></div>' +

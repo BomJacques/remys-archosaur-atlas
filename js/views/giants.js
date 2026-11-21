@@ -111,7 +111,7 @@
         var art = mk('div', 'giants-art'); art.style.width = pct + '%';
         art.innerHTML = it.img ? '<img class="giants-pic" src="' + esc(it.img.src) + '" alt="' + esc(it.name) + '" loading="lazy" style="width:100%;height:auto;display:block">' : (it.svg || artFor(it.id, it.art));
         var info = mk('div', 'giants-info');
-        info.innerHTML = '<b>' + esc(it.name) + '</b> <span>' + (it.extra || (f1(it.shown || it.len) + ' m long')) + (it.mass ? ' · ' + nice(it.mass) : '') + '</span>';
+        info.innerHTML = '<b>' + esc(it.name) + '</b> ' + (window.UI && window.UI.pronHtml ? window.UI.pronHtml(it.id) : '') + ' <span>' + (it.extra || (f1(it.shown || it.len) + ' m long')) + (it.mass ? ' · ' + nice(it.mass) : '') + '</span>';
         var bar = mk('div', 'giants-scalebar'); bar.style.width = pct + '%';
         row.appendChild(info); row.appendChild(art); row.appendChild(bar);
         if (!it.fixed && arOK(it.id)) {

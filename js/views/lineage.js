@@ -200,7 +200,7 @@
         var next = pa[S.idx + 1], prev = pa[S.idx - 1];
         var h = '<div class="info-in">' +
           '<div class="info-step">Step ' + (S.idx + 1) + ' of ' + pa.length + ' · ' + (m ? 'first appears ' + UI.fmtMya(m) : 'living today') + '</div>' +
-          '<h2 class="info-name">' + esc(t.name) + '</h2>' +
+          '<h2 class="info-name">' + esc(t.name) + '</h2>' + (UI.pronHtml ? UI.pronHtml(t.id) : '') +
           (t.nickname ? '<p class="info-nick">“' + esc(t.nickname) + '”</p>' : '') +
           (last ? '<div class="you-here">📍 This is the animal you picked!</div>' : '<div class="you-here ghost">An ancestor group of ' + esc(tName(S.animal)) + '</div>') +
           (t.keyTrait ? '<div class="keytrait"><b>✨ New at this step</b><span>' + esc(t.keyTrait) + '</span></div>' : '') +
@@ -255,7 +255,7 @@
         var c = D.byId(S.cousin), d = body.querySelector('#cousinDetail'); if (!c || !d) return;
         var lv = leaves(c.id).filter(function (id) { return id !== S.animal; });
         d.innerHTML = '<div class="co-detail"><div class="co-detail-art">' + art(c) + '</div><div class="co-detail-txt">' +
-          '<h4>' + esc(c.name) + (c.nickname ? ' <small>“' + esc(c.nickname) + '”</small>' : '') + '</h4>' +
+          '<h4>' + esc(c.name) + (c.nickname ? ' <small>“' + esc(c.nickname) + '”</small>' : '') + '</h4>' + (UI.pronHtml ? UI.pronHtml(c.id) : '') +
           '<p>' + esc(c.blurb || '') + '</p>' +
           (lv.length ? '<p class="live-line"><b>Living today:</b> ' + lv.slice(0, 6).map(function (id) { return '<button class="mini-link" data-trace="' + id + '">' + esc(tName(id)) + '</button>'; }).join(' ') + '</p>' :
             '<p class="live-line muted">No living animals from this branch. It is extinct.</p>') +
@@ -346,7 +346,7 @@
           rel = '🌿 A <b>cousin</b> branch. ' + (D.mrcaStory ? esc(D.mrcaStory(S.animal, t.id)) : (l ? 'You share an ancestor: ' + esc(l.name) : ''));
         }
         box.innerHTML = '<section class="card tree-info" style="--c:' + esc(colorOf(t)) + '"><div class="ti-art">' + art(t) + '</div><div class="ti-txt">' +
-          '<h3>' + esc(t.name) + (t.nickname ? ' <small>“' + esc(t.nickname) + '”</small>' : '') + '</h3>' +
+          '<h3>' + esc(t.name) + (t.nickname ? ' <small>“' + esc(t.nickname) + '”</small>' : '') + '</h3>' + (UI.pronHtml ? UI.pronHtml(t.id) : '') +
           '<p class="ti-rel">' + rel + '</p><p>' + esc(t.blurb || '') + '</p>' +
           '<p class="muted">' + (t.modern ? 'Living today' : 'First appears ' + UI.fmtMya(t.mya)) + '</p>' + UI.arButton(t.id) +
           '<div class="row">' + (t.modern && t.id !== S.animal ? '<button class="btn" data-trace="' + t.id + '">🧬 Trace ' + esc(t.name) + '</button>' : '') +

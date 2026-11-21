@@ -43,7 +43,7 @@
           '<span class="jn-pill">Step ' + (idx + 1) + ' of ' + n + '</span><span class="jn-when">' + esc(st.when) + '</span>' +
           '<button type="button" class="jn-nav jn-prev" data-d="-1" aria-label="Back to the previous step"' + (idx === 0 ? ' disabled' : '') + '>&#9664;</button>' +
           '<button type="button" class="jn-nav jn-next" data-d="1" aria-label="On to the next step"' + (idx === n - 1 ? ' disabled' : '') + '>&#9654;</button>';
-        info.innerHTML = '<div class="jn-info-top"><div><div class="jn-eyebrow">' + esc(tr.title) + '</div><h2 class="jn-name">' + esc(st.name) + '</h2></div>' +
+        info.innerHTML = '<div class="jn-info-top"><div><div class="jn-eyebrow">' + esc(tr.title) + '</div><h2 class="jn-name">' + esc(st.name) + '</h2>' + (ctx.UI.pronHtml ? ctx.UI.pronHtml(st.name) : '') + '</div>' +
           '<div class="jn-actions"><button type="button" class="btn" data-play="1">' + (timer ? 'Pause' : 'Play the journey') + '</button>' +
           (key !== 'human' || true ? '<button type="button" class="btn btn-ghost" data-tree="1">Full family tree</button>' : '') + '</div></div>' +
           '<p class="jn-text">' + esc(st.text) + '</p><p class="jn-sub">' + esc(tr.sub) + '</p>';

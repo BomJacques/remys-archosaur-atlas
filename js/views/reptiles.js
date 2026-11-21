@@ -111,7 +111,7 @@
         box.innerHTML = '<div class="g-top"><span>Question ' + (game.i + 1) + ' of ' + game.q.length + '</span><span>⭐ ' + game.score + '</span></div>' +
           '<p class="g-help">Drag the card to a side, or tap a button.</p>' +
           '<div class="g-arena"><div class="g-zone g-no" id="zNo">❌<br>Not a dinosaur</div>' +
-          '<div class="g-card" id="gCard" style="touch-action:none"><div class="g-art">' + Art.svg(t.artId || t.id) + '</div><h3>' + esc(t.name) + '</h3>' +
+          '<div class="g-card" id="gCard" style="touch-action:none"><div class="g-art">' + Art.svg(t.artId || t.id) + '</div><h3>' + esc(t.name) + '</h3>' + (UI.pronHtml ? UI.pronHtml(t.id) : '') +
           (t.nickname ? '<p>“' + esc(t.nickname) + '”</p>' : '') + '</div>' +
           '<div class="g-zone g-yes" id="zYes">✅<br>Dinosaur</div></div>' +
           '<div class="g-btns"><button class="btn btn-no" data-ans="no">❌ Not a dinosaur</button><button class="btn btn-yes" data-ans="yes">✅ Dinosaur</button></div>' +
