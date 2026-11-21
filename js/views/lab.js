@@ -78,7 +78,24 @@
       lower: 'M' + bx + ',' + by + ' L' + (bx + LL * 0.92) + ',' + (by + dd * 0.1) + ' Q' + (bx + LL * 0.5) + ',' + (by + dd / 2) + ' ' + bx + ',' + (by + dd / 2) + ' Z'
     };
   }
+  /* Painted finches (assets/art/sim): thin, medium and thick beak. Between them we crossfade, so the beak
+     seems to change smoothly as the flock's average thickness moves. */
   function finchInner(t, ghost) {
+    var SA = window.SIMART;
+    if (SA && SA['beak-thin'] && SA['beak-medium'] && SA['beak-thick']) {
+      var k, a, b, wa, s = '';
+      if (t <= 0.5) { k = Math.max(0, Math.min(1, (t - 0.1) / 0.4)); a = 'beak-thin'; b = 'beak-medium'; }
+      else { k = Math.max(0, Math.min(1, (t - 0.5) / 0.4)); a = 'beak-medium'; b = 'beak-thick'; }
+      function img(key, w) {
+        if (w < 0.02) return '';
+        var asp = SA[key].aspect || 1, W = Math.min(150, 100 / asp), H = W * asp;
+        return '<image href="' + SA[key].src + '" x="' + ((150 - W) / 2).toFixed(1) + '" y="' + ((100 - H) / 2).toFixed(1) + '" width="' + W.toFixed(1) + '" height="' + H.toFixed(1) + '" opacity="' + w.toFixed(2) + '" preserveAspectRatio="xMidYMid meet"/>';
+      }
+      return img(a, 1 - k) + img(b, k);
+    }
+    return finchVector(t, ghost);
+  }
+  function finchVector(t, ghost) {
     var b = beakPaths(t), s = '';
     if (ghost != null) { var g = beakPaths(ghost); s += '<path d="' + g.upper + ' ' + g.lower + '" fill="none" stroke="#555" stroke-width="1.6" stroke-dasharray="3 2.5" stroke-linejoin="round"/>'; }
     s += '<polygon points="28,52 2,42 7,66 30,70" fill="#6aa3d6"/>' +
@@ -163,7 +180,7 @@
           '<div class="lab-portrait-arrow" aria-hidden="true">➜</div>' +
           '<div class="lab-portrait lab-portrait-now"><div class="lab-portrait-tag">Generation ' + gen + '</div>' + finchSvg(v, gen > 0 ? t0 : null) +
           '<div class="lab-portrait-cap">average beak <b>' + f1(mm(v)) + ' mm</b>' + (gen > 0 ? ' <span class="' + (diff >= 0 ? 'lab-up' : 'lab-down') + '">(' + (diff >= 0 ? '+' : '−') + f1(Math.abs(diff)) + ')</span>' : '') + '</div>' +
-          (gen > 0 ? '<div class="lab-portrait-note">dashed line = the old beak</div>' : '') + '</div>';
+          '</div>';
       }
       cancelAnimationFrame(raf);
       if (shown == null || !animate || reduced()) { shown = target; draw(target); return; }
@@ -189,9 +206,13 @@
       var Y = YEARS[mode] || { soft: 0.5, hard: 0.5, name: 'Random weather', emoji: '🎲' };
       var s = '<svg viewBox="0 0 300 54" aria-hidden="true" focusable="false"><rect width="300" height="54" rx="12" fill="' + (Y.col || '#f1ead7') + '"/>';
       var total = 24, hard = Math.round(Y.hard * total), i, x, y;
+      var SA = window.SIMART, HS = SA && SA['seed-hard'], SS = SA && SA['seeds-soft'];
       for (i = 0; i < total; i++) {
         x = 18 + (i % 12) * 23 + ((i * 7) % 5); y = 17 + Math.floor(i / 12) * 22 + ((i * 3) % 4);
-        if (i < hard) s += '<ellipse cx="' + x + '" cy="' + y + '" rx="8" ry="6.5" fill="#8a5a2b" stroke="#5c3a17" stroke-width="1.5"/>';
+        if (i < hard) {
+          if (HS) s += '<image href="' + HS.src + '" x="' + (x - 11) + '" y="' + (y - 10) + '" width="22" height="' + (22 * HS.aspect).toFixed(1) + '"/>';
+          else s += '<ellipse cx="' + x + '" cy="' + y + '" rx="8" ry="6.5" fill="#8a5a2b" stroke="#5c3a17" stroke-width="1.5"/>';
+        } else if (SS) s += '<image href="' + SS.src + '" x="' + (x - 9) + '" y="' + (y - 7) + '" width="18" height="' + (18 * SS.aspect).toFixed(1) + '"/>';
         else s += '<ellipse cx="' + x + '" cy="' + y + '" rx="4" ry="2.8" fill="#9ccf6a" stroke="#6ea23b"/>';
       }
       s += '</svg>';

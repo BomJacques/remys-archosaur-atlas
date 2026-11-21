@@ -206,3 +206,12 @@
   .lab-portraits { grid-template-columns: 1fr 1fr; }
   .lab-portrait-arrow { display: none; }
 }
+
+/* Grow-a-neck with painted art */
+.giants-gscene { position: relative; display: flex; align-items: flex-end; gap: 6px; padding: 26px 10px 8px; min-height: 230px; border-radius: 14px; overflow: hidden; background: linear-gradient(#dff1fb 0 64%, #c4e5a0 64%); }
+.giants-gtree { width: 30%; max-width: 240px; flex: none; height: auto; }
+.giants-herd { flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px 6px; align-items: end; }
+.giants-herd img { width: 100%; height: auto; display: block; transition: opacity .6s, transform .6s, filter .6s; }
+.giants-herd img.giants-dead { opacity: .2; filter: grayscale(1); transform: scale(.85) rotate(-6deg); }
+.giants-gnote { position: absolute; left: 10px; top: 6px; font-size: 14px; color: #456; }
+.giants-pic { image-rendering: auto; }

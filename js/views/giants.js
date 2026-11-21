@@ -54,8 +54,20 @@
       { id: 'child', name: 'A kid', len: 1.3, mass: 35, svg: KID_SVG, aspect: 1, extra: 'about 1.3 m tall', fixed: true },
       { id: 'bus', name: 'A city bus', len: 12, mass: 12000, svg: BUS_SVG, aspect: 50 / 120, extra: 'about 12 m long', fixed: true }
     ];
+    var seen = {}, CMP = window.COMPARE;
+    if (CMP && Object.keys(CMP).length) {
+      /* painted cut-outs drawn to one common scale (100 px = 1 m in the source files) */
+      items = [];
+      Object.keys(CMP).forEach(function (k) {
+        var c = CMP[k], t = DATA.byId && DATA.byId(k);
+        var nm = k === 'child' ? 'A kid' : k === 'bus' ? 'A city bus' : t ? String(t.name).replace(/\s*\(.*$/, '') : k.charAt(0).toUpperCase() + k.slice(1);
+        var len = t && t.lengthM ? t.lengthM : c.widthM;
+        items.push({ id: k, name: nm, len: c.widthM, shown: len, mass: t ? t.massKg : (k === 'child' ? 35 : k === 'bus' ? 12000 : 0), img: c, fixed: k === 'child' || k === 'bus',
+          extra: k === 'child' ? 'about 1.3 m tall' : k === 'bus' ? 'about 12 m long' : null });
+      });
+      seen = { trex: 1, argentinosaurus: 1 };
+    } else {
     var taxa = (DATA.taxa || []).filter(function (t) { return t && t.rank !== 'group' && (t.lengthM > 0 || FALLBACK_LEN[t.id]); });
-    var seen = {};
     taxa.forEach(function (t) {
       if (seen[t.id] || t.id === 'human') return; seen[t.id] = 1;
       items.push({ id: t.id, name: t.nickname && t.name ? t.name : (t.name || t.id), len: t.lengthM || FALLBACK_LEN[t.id], mass: t.massKg || FALLBACK_MASS[t.id], art: t.artId || t.id, aspect: 235 / 400, taxon: t });
@@ -63,6 +75,7 @@
     ['trex', 'argentinosaurus'].forEach(function (id) {
       if (!seen[id]) { items.push({ id: id, name: id === 'trex' ? 'T. rex' : 'Argentinosaurus', len: FALLBACK_LEN[id], mass: FALLBACK_MASS[id], art: id, aspect: 235 / 400 }); }
     });
+    }
     var on = { child: 1, bus: 1, trex: 1, argentinosaurus: 1 };
     var root = mk('section', 'giants-sec');
     root.innerHTML = '<h2 class="giants-h2">📏 How big is big?</h2><p class="giants-intro">Tap the animals to put them in the line-up. Every picture is drawn to the same scale, so you can see who towers over who.</p>';
@@ -96,9 +109,9 @@
       sel.forEach(function (it) {
         var pct = it.len / max * 100, row = mk('div', 'giants-row');
         var art = mk('div', 'giants-art'); art.style.width = pct + '%';
-        art.innerHTML = it.svg || artFor(it.id, it.art);
+        art.innerHTML = it.img ? '<img class="giants-pic" src="' + esc(it.img.src) + '" alt="' + esc(it.name) + '" loading="lazy" style="width:100%;height:auto;display:block">' : (it.svg || artFor(it.id, it.art));
         var info = mk('div', 'giants-info');
-        info.innerHTML = '<b>' + esc(it.name) + '</b> <span>' + (it.extra || (f1(it.len) + ' m long')) + (it.mass ? ' · ' + nice(it.mass) : '') + '</span>';
+        info.innerHTML = '<b>' + esc(it.name) + '</b> <span>' + (it.extra || (f1(it.shown || it.len) + ' m long')) + (it.mass ? ' · ' + nice(it.mass) : '') + '</span>';
         var bar = mk('div', 'giants-scalebar'); bar.style.width = pct + '%';
         row.appendChild(info); row.appendChild(art); row.appendChild(bar);
         if (!it.fixed && arOK(it.id)) {
@@ -177,6 +190,18 @@
 
     function sync() { Object.keys(chipB).forEach(function (k) { var on = (+k === H); chipB[k].classList.toggle('is-on', on); chipB[k].setAttribute('aria-checked', on ? 'true' : 'false'); }); }
     function drawScene() {
+      var SA = window.SIMART;
+      if (SA && SA['neck-short'] && SA['neck-medium'] && SA['neck-long'] && SA['tree-none']) {
+        var tree = H > 0.6 ? SA['tree-lots'] : H > 0.2 ? SA['tree-some'] : SA['tree-none'];
+        var html = '<div class="giants-gscene" role="img" aria-label="Herd of ' + N + ' plant-eaters. Average neck about ' + f1(neckM(mean(pop))) + ' metres. ' + (H > 0.6 ? 'Lots of leaves high up.' : H > 0.2 ? 'Some leaves high up.' : 'No leaves high up.') + '">' +
+          '<img class="giants-gtree" src="' + tree.src + '" alt=""><div class="giants-herd">';
+        pop.slice(0, SHOW).forEach(function (n, k) {
+          var im = n < 0.3 ? SA['neck-short'] : n < 0.55 ? SA['neck-medium'] : SA['neck-long'];
+          html += '<img class="giants-an' + (dead && dead[k] ? ' giants-dead' : '') + '" src="' + im.src + '" alt="">';
+        });
+        scene.innerHTML = html + '</div><span class="giants-gnote">10 of 40 shown</span></div>';
+        return;
+      }
       var W = 320, Ht = 190, g = 170, s = '<svg viewBox="0 0 ' + W + ' ' + Ht + '" role="img" aria-label="Herd of ' + N + ' plant-eaters. Average neck about ' + f1(neckM(mean(pop))) + ' metres.">' +
         '<rect width="' + W + '" height="' + Ht + '" rx="12" fill="#dff1fb"/><rect y="' + g + '" width="' + W + '" height="' + (Ht - g) + '" fill="#8cc96a"/>';
       var i, x, nk, hy;
@@ -273,6 +298,9 @@
     }
     function creature(s, col, label, extra) {
       var scale = 0.35 + 0.65 * s, art = '';
+      if (window.SIMART && window.SIMART['island-sauropod']) {
+        return '<div class="giants-isle"><div class="giants-isle-title">' + label + '</div><div class="giants-isle-box"><div class="giants-isle-art" style="width:' + Math.round(scale * 100) + '%"><img src="' + window.SIMART['island-sauropod'].src + '" alt="" style="width:100%;height:auto;display:block"></div></div><div class="giants-isle-len">average length about <b>' + f1(lenM(s)) + ' m</b></div><div class="giants-isle-note">' + extra + '</div></div>';
+      }
       try { if (Art && Art.svg) art = Art.svg('brachiosaurus'); else if (window.ART && window.ART.brachiosaurus) art = window.ART.brachiosaurus; } catch (e) { art = ''; }
       return '<div class="giants-isle"><div class="giants-isle-title">' + label + '</div><div class="giants-isle-box"><div class="giants-isle-art" style="width:' + Math.round(scale * 100) + '%">' + (art || dinoSvg(col)) + '</div></div><div class="giants-isle-len">average length about <b>' + f1(lenM(s)) + ' m</b></div><div class="giants-isle-note">' + extra + '</div></div>';
     }
