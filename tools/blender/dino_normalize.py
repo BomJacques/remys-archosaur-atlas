@@ -53,6 +53,27 @@ CFG = {
         folder='primal_carnage_carnotaurus', target=7.5, mode='length', yaw=180,
         clips={'C4D Animation Take': 'Idle'}, default_clip='Idle', usdz_clip='Idle', ref_clip='Idle', idle=None,
         face=(r'^center_head_', r'^center_tail5_'), poster=('Idle', 20)),
+    # --- second batch (added later) ---
+    # pteranodon: skinned rig, six clips; the standing Idle / Walk are put on the ground, flying clips hover.
+    'pteranodon': dict(
+        folder='male_pteranodon_-_natural_locomotion_rig', target=6.0, mode='span', yaw=0,
+        clips={'04_Flapping_Flight': 'Fly', '05_Soaring_Glide': 'Glide', '01_Idle_Quadrupedal': 'Idle',
+               '02_Walk_Quadrupedal': 'Walk', '06_Aerial_Bite_Attack': 'Snap'},
+        default_clip='Fly', usdz_clip='Idle', ref_clip='Glide', idle=None,
+        face=(r'^skull_', r'^tail_'), poster=('Fly', 0), hover=0.3, grounded=('Idle', 'Walk'), normal_jpeg=True),
+    # pliosaur: swimmer, floats 0.6 m above the floor plane
+    'pliosaur': dict(
+        folder='pliosaur_jurassic_sea_predator_-_animated', target=10.0, mode='length', yaw=0,
+        clips={'Swim_Slow': 'Swim', 'Swim_Fast': 'Dash', 'Idle': 'Idle', 'Attack_Bite': 'Bite'},
+        default_clip='Swim', usdz_clip='Idle', ref_clip='Swim', idle=None,
+        face=(r'^head_', r'^tail_06_'), poster=('Swim', 0), hover=0.6, normal_jpeg=True),
+    # raptor: NO skeleton - the glTF is a vertex cache (124 morph targets, 125 poses of a travelling run).
+    # dino_normalize_morph.py turns it into an in-place Run loop + a synthetic standing Idle (PCA morph targets).
+    'raptor': dict(
+        folder='jurassic_world_raptor2jurassicworldmoviemaker', target=2.0, mode='length', yaw=0,
+        clips={'Walk': 'Walk', 'Idle': 'Idle'}, default_clip='Idle', usdz_clip='Idle', ref_clip='Idle',
+        morph=dict(period=41.0, start=40, K=16, idle_frames=96, idle_index=None),
+        face=(r'^$', r'^$'), face_material='Raptor_Eye', poster=('Idle', 0), normal_jpeg=True),
 }
 
 TEX_MAX = 1024
@@ -397,6 +418,8 @@ def rebuild_materials(meshes, mid, tmpdir):
                         base_img = n.image
                     elif 'NORMAL' in lab:
                         norm_img = n.image
+            if norm_img is not None and norm_img == base_img:
+                norm_img = None   # some exports point the normal slot at the base colour image
             tag = f"{mid}_{sanitize(mat.name)}"
             new = {}
             for kind, img, mx in (('base', base_img, TEX_MAX), ('normal', norm_img, NORMAL_MAX)):
@@ -410,7 +433,7 @@ def rebuild_materials(meshes, mid, tmpdir):
                 nw, nh = max(1, int(round(w * s))), max(1, int(round(h * s)))
                 work = img.copy()
                 work.scale(nw, nh)
-                if kind == 'base' and amin > 0.99:
+                if (kind == 'base' or CFG[mid].get('normal_jpeg')) and amin > 0.99:
                     ext, fmt = 'jpg', 'JPEG'
                 else:
                     ext, fmt = 'png', 'PNG'
@@ -619,6 +642,9 @@ def main():
     args = ap.parse_args(argv)
     mid = args.id
     cfg = CFG[mid]
+    if cfg.get('morph'):
+        import dino_normalize_morph
+        return dino_normalize_morph.main()
     if args.yaw is not None:
         cfg['yaw'] = args.yaw
     os.makedirs(args.out, exist_ok=True)
@@ -672,8 +698,10 @@ def main():
     bake_transform(arm, meshes, G, loc_factor, list(bpy.data.actions))
     # --- ground every clip individually (feet on y=0, or lowest point at the hover height) ---
     meshes_global[:] = meshes
-    hover = cfg['mode'] == 'span'
-    stats['ground_shift_m'] = {a.name: round(ground_action(arm, a, cfg.get('hover', 0.3) if hover else 0.0, hover), 3)
+    hover = 'hover' in cfg
+    grounded = cfg.get('grounded', ())
+    stats['ground_shift_m'] = {a.name: round(ground_action(arm, a, 0.0 if a.name in grounded else cfg.get('hover', 0.3),
+                                                           hover and a.name not in grounded), 3)
                                for a in bpy.data.actions}
     if cfg.get('rebind'):
         stats['rebind_max_err_m'] = rebind_to_pose(arm, meshes, *cfg['rebind'])

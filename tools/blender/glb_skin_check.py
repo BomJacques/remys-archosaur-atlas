@@ -19,6 +19,8 @@ def load(path):
 
 def acc(j, binch, i):
     a = j['accessors'][i]
+    if 'sparse' in a or 'bufferView' not in a:
+        return acc_sparse(j, binch, a)
     bv = j['bufferViews'][a['bufferView']]
     dt = COMP[a['componentType']]
     nc = NCOMP[a['type']]
@@ -34,6 +36,27 @@ def acc(j, binch, i):
     arr = arr.reshape(cnt, nc).astype(np.float64)
     if a.get('normalized'):
         arr = arr / np.iinfo(dt).max
+    return arr
+
+
+def acc_sparse(j, binch, a):
+    """Accessor with optional sparse substitution (morph targets exported by Blender are often sparse)."""
+    nc = NCOMP[a['type']]
+    arr = np.zeros((a['count'], nc))
+    if 'bufferView' in a:
+        b2 = dict(a); b2.pop('sparse', None)
+        j2 = dict(j); j2['accessors'] = list(j['accessors']); j2['accessors'].append(b2)
+        arr = acc(j2, binch, len(j2['accessors']) - 1)
+    sp = a.get('sparse')
+    if sp:
+        n = sp['count']
+        ib = j['bufferViews'][sp['indices']['bufferView']]
+        vb = j['bufferViews'][sp['values']['bufferView']]
+        idt = COMP[sp['indices']['componentType']]
+        idx = np.frombuffer(binch, dtype=idt, count=n, offset=ib.get('byteOffset', 0) + sp['indices'].get('byteOffset', 0)).astype(int)
+        vals = np.frombuffer(binch, dtype=COMP[a['componentType']], count=n * nc,
+                             offset=vb.get('byteOffset', 0) + sp['values'].get('byteOffset', 0)).reshape(n, nc).astype(np.float64)
+        arr = arr.copy(); arr[idx] = vals
     return arr
 
 
@@ -94,6 +117,8 @@ def check(path):
         cache[i] = M
         return M
 
+    if 'skins' not in j:
+        return check_morph(j, binch, nodes, parent, local, world)
     skin = j['skins'][0]
     joints = skin['joints']
     ibm = acc(j, binch, skin['inverseBindMatrices']).reshape(-1, 4, 4).transpose(0, 2, 1)
@@ -127,6 +152,45 @@ def check(path):
         mn = np.min([r[0] for r in res], axis=0); mx = np.max([r[1] for r in res], axis=0)
         out[anim.get('name')] = dict(duration_s=round(float(dur), 2), min=mn.round(2).tolist(), max=mx.round(2).tolist(),
                                      size=(mx - mn).round(2).tolist())
+    return out
+
+
+def check_morph(j, binch, nodes, parent, local, world):
+    """No skeleton: base positions + sum(weight_k * target_k) for every sampled time of every animation."""
+    meshes = {}
+    for ni, node in enumerate(nodes):
+        if 'mesh' in node:
+            prims = []
+            for p in j['meshes'][node['mesh']]['primitives']:
+                base = acc(j, binch, p['attributes']['POSITION'])
+                tg = [acc(j, binch, t['POSITION']) for t in p.get('targets', [])]
+                prims.append((base, tg))
+            meshes[ni] = prims
+    out = {}
+    for anim in j['animations']:
+        chans = {}
+        for ch in anim['channels']:
+            if ch['target']['path'] != 'weights':
+                continue
+            s_ = anim['samplers'][ch['sampler']]
+            t = acc(j, binch, s_['input'])[:, 0]
+            v = acc(j, binch, s_['output'])[:, 0].reshape(len(t), -1)
+            chans[ch['target']['node']] = (t, v)
+        dur = max(c[0][-1] for c in chans.values())
+        res = []
+        for tm in np.linspace(0, dur, 25):
+            pts = []
+            for ni, (t, v) in chans.items():
+                w = np.array([np.interp(tm, t, v[:, k]) for k in range(v.shape[1])])
+                M = world(ni, {}, {})
+                for base, tg in meshes[ni]:
+                    P = base + sum(wk * tk for wk, tk in zip(w, tg))
+                    pts.append(P @ M[:3, :3].T + M[:3, 3])
+            pts = np.vstack(pts)
+            res.append((pts.min(0), pts.max(0)))
+        mn = np.min([r[0] for r in res], axis=0); mx = np.max([r[1] for r in res], axis=0)
+        out[anim.get('name')] = dict(duration_s=round(float(dur), 2), min=mn.round(2).tolist(), max=mx.round(2).tolist(),
+                                     size=(mx - mn).round(2).tolist(), morph_targets=len(next(iter(meshes.values()))[0][1]))
     return out
 
 

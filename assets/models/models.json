@@ -1,6 +1,7 @@
 [
   {
     "id": "trex",
+    "rig": "skeleton",
     "glb": "trex.glb",
     "usdz": "trex.usdz",
     "poster": "trex-poster.jpg",
@@ -53,6 +54,7 @@
   },
   {
     "id": "pterosaur",
+    "rig": "skeleton",
     "glb": "pterosaur.glb",
     "usdz": "pterosaur.usdz",
     "poster": "pterosaur-poster.jpg",
@@ -105,6 +107,7 @@
   },
   {
     "id": "ankylosaurus",
+    "rig": "skeleton",
     "glb": "ankylosaurus.glb",
     "usdz": "ankylosaurus.usdz",
     "poster": "ankylosaurus-poster.jpg",
@@ -147,6 +150,7 @@
   },
   {
     "id": "diplodocus",
+    "rig": "skeleton",
     "glb": "diplodocus.glb",
     "usdz": "diplodocus.usdz",
     "poster": "diplodocus-poster.jpg",
@@ -209,6 +213,7 @@
   },
   {
     "id": "carnotaurus",
+    "rig": "skeleton",
     "glb": "carnotaurus.glb",
     "usdz": "carnotaurus.usdz",
     "poster": "carnotaurus-poster.jpg",
@@ -247,6 +252,215 @@
       "license": "CC BY 4.0",
       "licenseUrl": "http://creativecommons.org/licenses/by/4.0/",
       "text": "This work is based on \"primal carnage carnotaurus\" (https://sketchfab.com/3d-models/primal-carnage-carnotaurus-e7013ee8fb3a4ce4b58da29a8c1f6d6e) by seth the yutyrannus (https://sketchfab.com/slang107123456789) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/) Scaled, re-textured and converted for AR."
+    }
+  },
+  {
+    "id": "raptor",
+    "rig": "morph",
+    "glb": "raptor.glb",
+    "usdz": "raptor.usdz",
+    "poster": "raptor-poster.jpg",
+    "lengthM": 2.0,
+    "clips": [
+      "Idle",
+      "Walk"
+    ],
+    "clipInfo": [
+      {
+        "name": "Idle",
+        "frames": [
+          0.0,
+          96.0
+        ],
+        "seconds": 4.0,
+        "source": "custom"
+      },
+      {
+        "name": "Walk",
+        "frames": [
+          0.0,
+          41.0
+        ],
+        "seconds": 1.71,
+        "source": "original"
+      }
+    ],
+    "defaultClip": "Idle",
+    "usdzClip": "Idle",
+    "tris": 27789,
+    "sizesKB": {
+      "glb": 4640,
+      "usdz": 5531,
+      "poster": 26,
+      "usdzMini": 5531,
+      "usdzFar": 5531
+    },
+    "usdzMini": "raptor-mini.usdz",
+    "usdzFar": "raptor-far.usdz",
+    "credit": {
+      "title": "Jurassic world raptor2(jurassicworldmoviemaker)",
+      "author": "Yea",
+      "authorUrl": "https://sketchfab.com/yea",
+      "url": "https://sketchfab.com/3d-models/jurassic-world-raptor2jurassicworldmoviemaker-b5b894ffe12f42f3b94e525c52cc2f15",
+      "license": "CC BY 4.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by/4.0/",
+      "text": "This work is based on \"Jurassic world raptor2(jurassicworldmoviemaker)\" (https://sketchfab.com/3d-models/jurassic-world-raptor2jurassicworldmoviemaker-b5b894ffe12f42f3b94e525c52cc2f15) by Yea (https://sketchfab.com/yea) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/) Scaled, re-textured and converted for AR."
+    }
+  },
+  {
+    "id": "pteranodon",
+    "rig": "skeleton",
+    "glb": "pteranodon.glb",
+    "usdz": "pteranodon.usdz",
+    "poster": "pteranodon-poster.jpg",
+    "wingspanM": 6.0,
+    "clips": [
+      "Fly",
+      "Glide",
+      "Idle",
+      "Snap",
+      "Walk"
+    ],
+    "clipInfo": [
+      {
+        "name": "Fly",
+        "frames": [
+          0.0,
+          144.0
+        ],
+        "seconds": 6.0,
+        "source": "original"
+      },
+      {
+        "name": "Glide",
+        "frames": [
+          0.0,
+          192.0
+        ],
+        "seconds": 8.0,
+        "source": "original"
+      },
+      {
+        "name": "Idle",
+        "frames": [
+          0.0,
+          144.0
+        ],
+        "seconds": 6.0,
+        "source": "original"
+      },
+      {
+        "name": "Snap",
+        "frames": [
+          0.0,
+          84.0
+        ],
+        "seconds": 3.5,
+        "source": "original"
+      },
+      {
+        "name": "Walk",
+        "frames": [
+          0.0,
+          67.2
+        ],
+        "seconds": 2.8,
+        "source": "original"
+      }
+    ],
+    "defaultClip": "Fly",
+    "usdzClip": "Idle",
+    "tris": 69542,
+    "sizesKB": {
+      "glb": 5500,
+      "usdz": 5375,
+      "poster": 23,
+      "usdzMini": 5375,
+      "usdzFar": 5375
+    },
+    "usdzMini": "pteranodon-mini.usdz",
+    "usdzFar": "pteranodon-far.usdz",
+    "credit": {
+      "title": "Male Pteranodon - Natural Locomotion Rig",
+      "author": "Animal Animator",
+      "authorUrl": "https://sketchfab.com/animalanimator",
+      "url": "https://sketchfab.com/3d-models/male-pteranodon-natural-locomotion-rig-cfc9ae11a807447dbcaece3753ded59f",
+      "license": "CC BY 4.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by/4.0/",
+      "text": "This work is based on \"Male Pteranodon - Natural Locomotion Rig\" (https://sketchfab.com/3d-models/male-pteranodon-natural-locomotion-rig-cfc9ae11a807447dbcaece3753ded59f) by Animal Animator (https://sketchfab.com/animalanimator) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/) Scaled, re-textured and converted for AR."
+    }
+  },
+  {
+    "id": "pliosaur",
+    "rig": "skeleton",
+    "glb": "pliosaur.glb",
+    "usdz": "pliosaur.usdz",
+    "poster": "pliosaur-poster.jpg",
+    "lengthM": 10.0,
+    "clips": [
+      "Bite",
+      "Dash",
+      "Idle",
+      "Swim"
+    ],
+    "clipInfo": [
+      {
+        "name": "Bite",
+        "frames": [
+          0.0,
+          120.0
+        ],
+        "seconds": 5.0,
+        "source": "original"
+      },
+      {
+        "name": "Dash",
+        "frames": [
+          0.0,
+          115.2
+        ],
+        "seconds": 4.8,
+        "source": "original"
+      },
+      {
+        "name": "Idle",
+        "frames": [
+          0.0,
+          240.0
+        ],
+        "seconds": 10.0,
+        "source": "original"
+      },
+      {
+        "name": "Swim",
+        "frames": [
+          0.0,
+          288.0
+        ],
+        "seconds": 12.0,
+        "source": "original"
+      }
+    ],
+    "defaultClip": "Swim",
+    "usdzClip": "Idle",
+    "tris": 114768,
+    "sizesKB": {
+      "glb": 7213,
+      "usdz": 7295,
+      "poster": 24,
+      "usdzMini": 7295,
+      "usdzFar": 7295
+    },
+    "usdzMini": "pliosaur-mini.usdz",
+    "usdzFar": "pliosaur-far.usdz",
+    "credit": {
+      "title": "Pliosaur (Jurassic Sea Predator) - Animated",
+      "author": "Animal Animator",
+      "authorUrl": "https://sketchfab.com/animalanimator",
+      "url": "https://sketchfab.com/3d-models/pliosaur-jurassic-sea-predator-animated-01dfc9e28ce5494181caec4b7d8baa3b",
+      "license": "CC BY 4.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by/4.0/",
+      "text": "This work is based on \"Pliosaur (Jurassic Sea Predator) - Animated\" (https://sketchfab.com/3d-models/pliosaur-jurassic-sea-predator-animated-01dfc9e28ce5494181caec4b7d8baa3b) by Animal Animator (https://sketchfab.com/animalanimator) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/) Scaled, re-textured and converted for AR."
     }
   }
 ]

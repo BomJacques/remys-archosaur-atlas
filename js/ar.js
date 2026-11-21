@@ -30,7 +30,19 @@
     { id: 'pterosaur', name: 'Pterosaur (Pteranodon-style)', nick: 'Sky glider', len: 6, what: 'wingspan', taxon: 'pterosaur',
       blurb: 'Pterosaurs flew, but they were NOT dinosaurs. They were archosaur cousins. This one is Pteranodon-sized, and the real giants like Quetzalcoatlus were bigger still.',
       clips: ['Fly', 'Idle'], def: 'Fly', arClip: 'Idle',
-      credit: { title: 'Animated Flying Pteradactal Dinosaur Loop', author: 'LasquetiSpice', authorUrl: 'https://sketchfab.com/LasquetiSpice', url: 'https://sketchfab.com/3d-models/animated-flying-pteradactal-dinosaur-loop-09f6b1ff7bfd4a2d8d9c0b9827f2a708' } }
+      credit: { title: 'Animated Flying Pteradactal Dinosaur Loop', author: 'LasquetiSpice', authorUrl: 'https://sketchfab.com/LasquetiSpice', url: 'https://sketchfab.com/3d-models/animated-flying-pteradactal-dinosaur-loop-09f6b1ff7bfd4a2d8d9c0b9827f2a708' } },
+    { id: 'raptor', name: 'Raptor (Velociraptor-style)', nick: 'Clever hunter', len: 2, what: 'long', taxon: 'velociraptor',
+      blurb: 'Real raptors were turkey-sized and covered in feathers. This movie-style one has no feathers, so it looks scalier than the real animal. Real ones had wings, like birds!',
+      clips: ['Idle', 'Walk'], def: 'Idle',
+      credit: { title: 'Jurassic world raptor2(jurassicworldmoviemaker)', author: 'Yea', authorUrl: 'https://sketchfab.com/yea', url: 'https://sketchfab.com/3d-models/jurassic-world-raptor2jurassicworldmoviemaker-b5b894ffe12f42f3b94e525c52cc2f15' } },
+    { id: 'pteranodon', name: 'Pteranodon', nick: 'Toothless glider', len: 6, what: 'wingspan', taxon: null,
+      blurb: 'A pterosaur with a huge head crest and no teeth. It glided over the sea and caught fish. Not a dinosaur, but a close cousin!',
+      clips: ['Fly', 'Glide', 'Snap', 'Walk', 'Idle'], def: 'Fly', arClip: 'Idle',
+      credit: { title: 'Male Pteranodon - Natural Locomotion Rig', author: 'Animal Animator', authorUrl: 'https://sketchfab.com/animalanimator', url: 'https://sketchfab.com/3d-models/male-pteranodon-natural-locomotion-rig-cfc9ae11a807447dbcaece3753ded59f' } },
+    { id: 'pliosaur', name: 'Pliosaur', nick: 'Sea monster', len: 10, what: 'long', taxon: null,
+      blurb: 'A short-necked sea hunter with a huge head and four paddle flippers. Not a dinosaur: it was a marine reptile, a cousin of the long-necked plesiosaurs.',
+      clips: ['Swim', 'Dash', 'Bite', 'Idle'], def: 'Swim',
+      credit: { title: 'Pliosaur (Jurassic Sea Predator) - Animated', author: 'Animal Animator', authorUrl: 'https://sketchfab.com/animalanimator', url: 'https://sketchfab.com/3d-models/pliosaur-jurassic-sea-predator-animated-01dfc9e28ce5494181caec4b7d8baa3b' } }
   ];
   var byId = {};
   MODELS.forEach(function (m) { byId[m.id] = m; });

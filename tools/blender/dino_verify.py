@@ -53,6 +53,102 @@ def sheet(arm, meshes, act, out, views):
         os.remove(p)
 
 
+def face_from_material(ms, rx):
+    """Morph models have no bones: the head end is where the eye material sits. Returns eye_y - mesh_mean_y."""
+    n = 0
+    eye = []; allp = L.eval_points(ms)
+    for o in ms:
+        me = o.data
+        idx = [i for i, p in enumerate(me.polygons) if re.search(rx, me.materials[p.material_index].name)]
+        vs = sorted({v for i in idx for v in me.polygons[i].vertices})
+        P = L.eval_points([o])
+        eye.append(P[vs])
+    eye = np.vstack(eye)
+    return float(eye[:, 1].mean() - allp[:, 1].mean())
+
+
+def set_key_action(key, act):
+    if key.animation_data is None:
+        key.animation_data_create()
+    key.animation_data.action = act
+    if act.slots:
+        try:
+            key.animation_data.action_slot = act.slots[0]
+        except Exception:
+            pass
+
+
+def measure_morph(ms, key, act, n=24):
+    set_key_action(key, act)
+    res = []
+    a, b = act.frame_range
+    for i in range(n + 1):
+        L.set_frame(a + (b - a) * i / n)
+        P = L.eval_points(ms)
+        res.append((P.min(0), P.max(0), P.mean(0)))
+    mn = np.min([r[0] for r in res], axis=0); mx = np.max([r[1] for r in res], axis=0)
+    return dict(frames=[round(a, 2), round(b, 2)], union_min=[round(float(x), 3) for x in mn],
+                union_max=[round(float(x), 3) for x in mx], union_size=[round(float(x), 3) for x in (mx - mn)],
+                per_frame_min_z_median=round(float(np.median([r[0][2] for r in res])), 3))
+
+
+def verify_morph(a, cfg):
+    rep = dict(id=a.id, kind='morph')
+    L.reset_scene()
+    bpy.ops.import_scene.gltf(filepath=os.path.join(a.out, f"{a.id}.glb"))
+    ms = [o for o in bpy.data.objects if o.type == 'MESH']
+    rep['glb_objects'] = sorted((o.type, o.name) for o in bpy.data.objects)
+    rep['glb_armatures'] = len([o for o in bpy.data.objects if o.type == 'ARMATURE'])
+    key = ms[0].data.shape_keys
+    rep['glb_shape_keys'] = len(key.key_blocks)
+    rep['glb_actions'] = sorted(act.name for act in bpy.data.actions)
+    rep['glb_clips'] = {act.name: measure_morph(ms, key, act) for act in bpy.data.actions}
+    set_key_action(key, [x for x in bpy.data.actions if x.name == cfg['default_clip']][0]); L.set_frame(0)
+    d = face_from_material(ms, cfg['face_material'])
+    rep['glb_eye_minus_mean_blender_y'] = round(d, 3)
+    rep['glb_facing'] = 'glTF +Z (Blender -Y)' if d < 0 else 'WRONG (Blender +Y)'
+    rep['glb_images'] = [(i.name, list(i.size), i.file_format) for i in bpy.data.images if i.type == 'IMAGE']
+    rep['tris'] = sum(len(p.vertices) - 2 for o in ms for p in o.data.polygons)
+    if a.sheets:
+        for act in bpy.data.actions:
+            if act.name in ('Idle', cfg['default_clip']):
+                set_key_action(key, act)
+                L.setup_workbench((320, 240), bg=(0.9, 0.92, 0.94))
+                paths = []
+                P = np.vstack([ (L.set_frame(f), L.eval_points(ms))[1] for f in L.frames_of(act, 7)])
+                c = (P.min(0) + P.max(0)) / 2; sz = float((P.max(0) - P.min(0)).max()) * 1.1
+                for vi, (vn, dd) in enumerate([('side', (1, 0, 0.2)), ('top', (0, -0.001, 1)), ('front', (0.0, -1, 0.2))]):
+                    for i, f in enumerate(L.frames_of(act, 3)):
+                        L.set_frame(f); L.make_camera(c, dd, sz * 2, ortho=sz)
+                        p = os.path.join(a.scratch, f"_v{vi}_{i}.png"); L.render_to(p); paths.append(p)
+                L.stitch(paths, 4, os.path.join(a.scratch, f"{a.id}_verify_{act.name}.jpg"))
+                for p in paths:
+                    os.remove(p)
+                break
+    L.reset_scene()
+    try:
+        bpy.ops.wm.usd_import(filepath=os.path.join(a.out, f"{a.id}.usdz"))
+        rep['usd_reimport_objects'] = sorted((o.type, o.name) for o in bpy.data.objects)
+        ms = [o for o in bpy.data.objects if o.type == 'MESH']
+        sc = bpy.context.scene
+        rep['usd_reimport_frames'] = [sc.frame_start, sc.frame_end]
+        rep['usd_shape_keys'] = [len(o.data.shape_keys.key_blocks) if o.data.shape_keys else 0 for o in ms]
+        sizes = []
+        for f in (sc.frame_start, (sc.frame_start + sc.frame_end) // 2, sc.frame_end):
+            L.set_frame(f); P = L.eval_points(ms); sizes.append([round(float(x), 3) for x in (P.max(0) - P.min(0))])
+            if f == sc.frame_start:
+                rep['usd_reimport_min'] = [round(float(x), 3) for x in P.min(0)]
+                rep['usd_reimport_max'] = [round(float(x), 3) for x in P.max(0)]
+        rep['usd_reimport_sizes_start_mid_end'] = sizes
+        d = face_from_material(ms, cfg['face_material'])
+        rep['usd_facing'] = 'USD +Z (Blender -Y) OK' if d < 0 else 'WRONG'
+    except Exception as e:
+        rep['usd_reimport_error'] = repr(e)
+    with open(os.path.join(a.scratch, f"{a.id}_verify.json"), 'w') as fh:
+        json.dump(rep, fh, indent=1)
+    print("[verify]", json.dumps(rep)[:3000])
+
+
 def main():
     argv = sys.argv[sys.argv.index('--') + 1:]
     ap = argparse.ArgumentParser()
@@ -60,6 +156,8 @@ def main():
     ap.add_argument('--sheets', action='store_true')
     a = ap.parse_args(argv)
     cfg = CFG[a.id]
+    if cfg.get('morph'):
+        return verify_morph(a, cfg)
     rep = dict(id=a.id)
     L.reset_scene()
     bpy.ops.import_scene.gltf(filepath=os.path.join(a.out, f"{a.id}.glb"))
